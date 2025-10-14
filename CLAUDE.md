@@ -1,2 +1,3 @@
 - 使用中文回复
 - 此项目的github仓库地址：git@github.com:redballoom/tujiaosou_website_index.git
+- 在每次大改动后要执行git的版本管理，确保大修改都有github的备份，方便回滚
