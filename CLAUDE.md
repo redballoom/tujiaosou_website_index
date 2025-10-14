@@ -1,3 +1,5 @@
 - 使用中文回复
 - 此项目的github仓库地址：git@github.com:redballoom/tujiaosou_website_index.git
 - 在每次大改动后要执行git的版本管理，确保大修改都有github的备份，方便回滚
+- 每次git提交操作前，先询问
+- 操作结束后都开启一个简单的服务，让我访问，查看你的修改结果，结束后应该询问关闭服务

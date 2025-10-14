@@ -50,6 +50,7 @@ coverage/
 # Temporary folders
 tmp/
 temp/
+public_img/
 
 # Optional npm cache directory
 .npm
