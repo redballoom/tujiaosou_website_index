@@ -182,6 +182,7 @@
             top: 50%;
             transform: translateY(-50%);
             z-index: 40;
+            display: none; /* Hidden as requested */
         }
 
         .progress-dot {
@@ -234,6 +235,180 @@
             }
         }
 
+        /* Modern Pricing Cards */
+        .pricing-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.2);
+        }
+
+        .pricing-card:hover::before {
+            opacity: 1;
+        }
+
+        .pricing-card.featured {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(129, 140, 248, 0.1));
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            opacity: 1;
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+
+        .plan-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .plan-price-currency {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            vertical-align: super;
+        }
+
+        .plan-price-period {
+            font-size: 1rem;
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .plan-features li {
+            padding: 0.75rem 0;
+            color: #e2e8f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .plan-features li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-icon svg {
+            width: 12px;
+            height: 12px;
+            stroke: white;
+            stroke-width: 3;
+        }
+
+        .plan-button {
+            width: 100%;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .plan-button.basic {
+            background: rgba(148, 163, 184, 0.2);
+            color: #e2e8f0;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+
+        .plan-button.basic:hover {
+            background: rgba(148, 163, 184, 0.3);
+            border-color: rgba(148, 163, 184, 0.5);
+        }
+
+        .plan-button.pro {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            color: white;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        }
+
+        .plan-button.pro:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.6);
+        }
+
+        .plan-button.enterprise {
+            background: rgba(30, 41, 59, 0.8);
+            color: #e2e8f0;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .plan-button.enterprise:hover {
+            background: rgba(56, 189, 248, 0.1);
+            border-color: rgba(56, 189, 248, 0.5);
+        }
+
+        /* Popular Badge */
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        }
+
         /* Mobile optimization */
         @media (max-width: 768px) {
             .progress-indicator {
@@ -247,6 +422,19 @@
 
             .service-content {
                 padding: 0 1rem;
+            }
+
+            .pricing-card {
+                padding: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .plan-price {
+                font-size: 2.5rem;
             }
         }
 
@@ -709,53 +897,234 @@
         <section id="pricing" class="py-20">
             <div class="container mx-auto px-6 text-center">
                 <div class="reveal">
-                    <h3 class="text-3xl md:text-4xl font-bold mb-4">选择适合您的方案</h3>
-                    <p class="text-slate-400 max-w-xl mx-auto mb-12">透明定价，无隐藏费用，只为增长付费。</p>
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">简单透明的定价</h3>
+                    <p class="text-slate-400 max-w-xl mx-auto mb-12">选择最合适您业务的会员套餐，无需长期合约，随时可以升级或降级。</p>
                 </div>
+
                 <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
-                    <div class="glass-card p-8 rounded-xl border border-slate-700 reveal h-full flex flex-col">
-                        <h4 class="text-xl font-bold mb-2">视觉优化套餐</h4>
-                        <p class="text-slate-400 text-sm mb-4">适合追求性价比的新手卖家</p>
-                        <p class="text-5xl font-black mb-4">¥980</p>
-                        <ul class="text-left space-y-3 text-slate-300 mb-8 flex-grow">
-                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>7张主图设计</span></li>
-                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>基础A+页面 (3个模块)</span></li>
+                    <!-- 基础版 -->
+                    <div class="pricing-card reveal h-full flex flex-col">
+                        <div class="plan-name">基础</div>
+                        <div class="plan-price">
+                            <span class="plan-price-currency">¥</span>299
+                            <span class="plan-price-period">/月</span>
+                        </div>
+                        <p class="text-slate-400 mb-6">适合个人卖家和小型团队</p>
+
+                        <ul class="plan-features flex-grow">
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>每月 5 个产品设计</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>基础主图优化</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>简单 A+ 页面设计</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>48小时交付</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>邮件支持</span>
+                            </li>
                         </ul>
-                        <button class="w-full bg-slate-600 text-white font-bold py-3 rounded-lg hover:bg-slate-500 transition mt-auto">立即开始</button>
+
+                        <button class="plan-button basic mt-auto">开始免费试用</button>
                     </div>
-                    <div class="glass-card p-8 rounded-xl border-2 border-sky-400 relative reveal h-full flex flex-col" style="transition-delay: 200ms; transform: scale(1.05);">
-                        <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-sky-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full">主推</div>
-                        <h4 class="text-xl font-bold mb-2">策略增长套餐</h4>
-                        <p class="text-slate-400 text-sm mb-4">适合希望打造爆款的精品卖家</p>
-                        <p class="text-5xl font-black mb-4">¥2,980</p>
-                        <ul class="text-left space-y-3 text-slate-300 mb-8 flex-grow">
-                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>7张主图 (含竞品分析)</span></li>
-                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>完整A+页面 (5-7模块)</span></li>
-                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>品牌故事页设计</span></li>
-                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>专业文案策划</span></li>
+
+                    <!-- 进阶版 -->
+                    <div class="pricing-card featured reveal h-full flex flex-col" style="transition-delay: 200ms;">
+                        <div class="popular-badge">最受欢迎</div>
+                        <div class="plan-name">进阶</div>
+                        <div class="plan-price">
+                            <span class="plan-price-currency">¥</span>899
+                            <span class="plan-price-period">/月</span>
+                        </div>
+                        <p class="text-slate-400 mb-6">适合成长型卖家和专业团队</p>
+
+                        <ul class="plan-features flex-grow">
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>每月 20 个产品设计</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>高级主图优化 + A/B 测试</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>完整 A+ 页面设计</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>品牌故事设计</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>24小时优先交付</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>在线客服 + 电话支持</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>营销图片设计</span>
+                            </li>
                         </ul>
-                        <button class="w-full cta-button text-white font-bold py-3 rounded-lg mt-auto">立即开始</button>
+
+                        <button class="plan-button pro mt-auto">开始免费试用</button>
                     </div>
-                    <div class="glass-card p-8 rounded-xl border border-slate-700 reveal h-full flex flex-col" style="transition-delay: 400ms;">
-                        <h4 class="text-xl font-bold mb-2">品牌旗舰套餐</h4>
-                        <p class="text-slate-400 text-sm mb-4">适合追求长期价值的品牌方</p>
-                        <p class="text-5xl font-black mb-4">¥4,980</p>
-                        <ul class="text-left space-y-3 text-slate-300 mb-8 flex-grow">
-                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>包含进阶版所有内容</span></li>
-                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>A/B测试主图版</span></li>
-                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>3张营销图片 (社媒/广告)</span></li>
-                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>专属项目经理</span></li>
+
+                    <!-- 高级版 -->
+                    <div class="pricing-card reveal h-full flex flex-col" style="transition-delay: 400ms;">
+                        <div class="plan-name">高级</div>
+                        <div class="plan-price">
+                            <span class="plan-price-currency">¥</span>1,999
+                            <span class="plan-price-period">/月</span>
+                        </div>
+                        <p class="text-slate-400 mb-6">适合大型企业和品牌卖家</p>
+
+                        <ul class="plan-features flex-grow">
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>无限产品设计</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>全套视觉解决方案</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>品牌店铺设计</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>视频制作服务</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>12小时极速交付</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>专属客户经理</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>定制化策略报告</span>
+                            </li>
+                            <li>
+                                <div class="feature-icon">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <span>API 接入支持</span>
+                            </li>
                         </ul>
-                        <button class="w-full bg-slate-600 text-white font-bold py-3 rounded-lg hover:bg-slate-500 transition mt-auto">定制方案</button>
+
+                        <button class="plan-button enterprise mt-auto">联系销售团队</button>
                     </div>
                 </div>
+
+                <!-- 额外信息 -->
                 <div class="mt-16 reveal">
-                    <div class="glass-card max-w-4xl mx-auto p-8 rounded-xl border border-slate-700 text-center">
-                        <h4 class="text-2xl font-bold mb-3">需要定制服务或成为代理？</h4>
-                        <p class="text-slate-400 mb-6">我们提供灵活的合作模式，满足您的业务扩展需求。</p>
-                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                            <a href="#contact" class="w-full sm:w-auto cta-button text-white font-bold py-3 px-6 rounded-lg">获取专属报价</a>
-                            <button @click="showAgentModal = true" class="w-full sm:w-auto bg-slate-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-500 transition">了解代理政策</button>
+                    <div class="glass-card max-w-4xl mx-auto p-8 rounded-xl border border-slate-700">
+                        <div class="grid md:grid-cols-3 gap-8 text-center">
+                            <div>
+                                <div class="text-2xl font-bold text-white mb-2">7天免费试用</div>
+                                <p class="text-slate-400">所有功能完整体验，无需信用卡</p>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-white mb-2">随时取消</div>
+                                <p class="text-slate-400">无长期合约，按月付费</p>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-white mb-2">专业支持</div>
+                                <p class="text-slate-400">7×24小时在线客服</p>
+                            </div>
                         </div>
                     </div>
                 </div>
