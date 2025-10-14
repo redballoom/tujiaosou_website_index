@@ -109,8 +109,35 @@
             justify-content: center;
             position: relative;
             opacity: 0;
-            transform: translateY(100px);
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(80px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* 统一的简约背景 */
+        .service-item {
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            position: relative;
+        }
+
+        /* 为活跃的服务项添加微妙的边框效果 */
+        .service-item.active {
+            position: relative;
+        }
+
+        .service-item.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+            animation: slideBorder 3s ease-in-out infinite;
+        }
+
+        @keyframes slideBorder {
+            0%, 100% { transform: translateX(-100%); opacity: 0; }
+            50% { transform: translateX(100%); opacity: 1; }
         }
 
         .service-item.active {
@@ -123,18 +150,20 @@
             width: 100%;
             margin: 0 auto;
             padding: 0 2rem;
+            position: relative;
+            z-index: 10;
         }
 
         .service-image {
             opacity: 0;
-            transform: translateX(-50px) scale(0.9);
-            transition: all 1s ease-out 0.3s;
+            transform: translateX(-30px) scale(0.95);
+            transition: all 0.6s ease-out 0.2s;
         }
 
         .service-text {
             opacity: 0;
-            transform: translateX(50px);
-            transition: all 1s ease-out 0.5s;
+            transform: translateX(30px);
+            transition: all 0.6s ease-out 0.3s;
         }
 
         .service-item.active .service-image,
@@ -145,8 +174,8 @@
 
         .service-number {
             opacity: 0;
-            transform: translateY(30px) scale(0.8);
-            transition: all 0.8s ease-out 0.2s;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.5s ease-out 0.1s;
         }
 
         .service-item.active .service-number {
@@ -156,8 +185,8 @@
 
         .service-title {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out 0.4s;
+            transform: translateY(20px);
+            transition: all 0.5s ease-out 0.2s;
         }
 
         .service-item.active .service-title {
@@ -167,13 +196,48 @@
 
         .service-description {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out 0.6s;
+            transform: translateY(20px);
+            transition: all 0.5s ease-out 0.3s;
         }
 
         .service-item.active .service-description {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* 统一优雅的文字样式 */
+        .service-item .service-title {
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-item .service-description {
+            color: #e2e8f0;
+            text-shadow: none;
+        }
+
+        .service-item .gradient-text {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 简约的玻璃卡片效果 */
+        .service-item .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        /* 微妙的悬浮效果 */
+        .service-item .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border-color: rgba(56, 189, 248, 0.2);
         }
 
         .progress-indicator {
@@ -897,8 +961,8 @@
         <section id="pricing" class="py-20">
             <div class="container mx-auto px-6 text-center">
                 <div class="reveal">
-                    <h3 class="text-3xl md:text-4xl font-bold mb-4">简单透明的定价</h3>
-                    <p class="text-slate-400 max-w-xl mx-auto mb-12">选择最合适您业务的会员套餐，无需长期合约，随时可以升级或降级。</p>
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">按需付费，灵活高效</h3>
+                    <p class="text-slate-400 max-w-xl mx-auto mb-12">选择最适合您需求的设计套餐，额度永不过期，随时可以补充购买。</p>
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
@@ -906,10 +970,10 @@
                     <div class="pricing-card reveal h-full flex flex-col">
                         <div class="plan-name">基础</div>
                         <div class="plan-price">
-                            <span class="plan-price-currency">¥</span>299
-                            <span class="plan-price-period">/月</span>
+                            <span class="plan-price-currency">¥</span>99
+                            <span class="plan-price-period">/10张</span>
                         </div>
-                        <p class="text-slate-400 mb-6">适合个人卖家和小型团队</p>
+                        <p class="text-slate-400 mb-6">适合刚起步的卖家和小批量需求</p>
 
                         <ul class="plan-features flex-grow">
                             <li>
@@ -918,7 +982,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
-                                <span>每月 5 个产品设计</span>
+                                <span>10张设计额度</span>
                             </li>
                             <li>
                                 <div class="feature-icon">
@@ -954,7 +1018,7 @@
                             </li>
                         </ul>
 
-                        <button class="plan-button basic mt-auto">开始免费试用</button>
+                        <button class="plan-button basic mt-auto">立即购买</button>
                     </div>
 
                     <!-- 进阶版 -->
@@ -962,8 +1026,8 @@
                         <div class="popular-badge">最受欢迎</div>
                         <div class="plan-name">进阶</div>
                         <div class="plan-price">
-                            <span class="plan-price-currency">¥</span>899
-                            <span class="plan-price-period">/月</span>
+                            <span class="plan-price-currency">¥</span>299
+                            <span class="plan-price-period">/30张</span>
                         </div>
                         <p class="text-slate-400 mb-6">适合成长型卖家和专业团队</p>
 
@@ -974,7 +1038,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
-                                <span>每月 20 个产品设计</span>
+                                <span>30张设计额度</span>
                             </li>
                             <li>
                                 <div class="feature-icon">
@@ -1026,15 +1090,18 @@
                             </li>
                         </ul>
 
-                        <button class="plan-button pro mt-auto">开始免费试用</button>
+                        <button class="plan-button pro mt-auto">立即购买</button>
                     </div>
 
                     <!-- 高级版 -->
                     <div class="pricing-card reveal h-full flex flex-col" style="transition-delay: 400ms;">
                         <div class="plan-name">高级</div>
                         <div class="plan-price">
-                            <span class="plan-price-currency">¥</span>1,999
-                            <span class="plan-price-period">/月</span>
+                            <span class="plan-price-currency">¥</span>2,999
+                            <span class="plan-price-period">/300张</span>
+                        </div>
+                        <div class="text-center mb-4">
+                            <span class="inline-block bg-gradient-to-r from-sky-400 to-blue-500 text-white text-sm font-bold px-3 py-1 rounded-full">赠送50张</span>
                         </div>
                         <p class="text-slate-400 mb-6">适合大型企业和品牌卖家</p>
 
@@ -1045,7 +1112,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 </div>
-                                <span>无限产品设计</span>
+                                <span>350张总设计额度 (300张+赠送50张)</span>
                             </li>
                             <li>
                                 <div class="feature-icon">
@@ -1114,8 +1181,8 @@
                     <div class="glass-card max-w-4xl mx-auto p-8 rounded-xl border border-slate-700">
                         <div class="grid md:grid-cols-3 gap-8 text-center">
                             <div>
-                                <div class="text-2xl font-bold text-white mb-2">7天免费试用</div>
-                                <p class="text-slate-400">所有功能完整体验，无需信用卡</p>
+                                <div class="text-2xl font-bold text-white mb-2">直到满意</div>
+                                <p class="text-slate-400">持续优化直至您完全满意，让效果说话</p>
                             </div>
                             <div>
                                 <div class="text-2xl font-bold text-white mb-2">随时取消</div>
@@ -1133,51 +1200,130 @@
 
         <!-- FAQ Section -->
         <section id="faq" class="py-20 bg-slate-900/70">
-            <div class="container mx-auto px-6 max-w-3xl">
-                <div class="text-center mb-12 reveal">
-                    <h3 class="text-3xl md:text-4xl font-bold mb-4">还有疑问？</h3>
-                    <p class="text-slate-400">为您解答关于我们合作模式的核心问题。</p>
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="text-center mb-16 reveal">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">常见问题</h3>
+                    <p class="text-slate-400 max-w-3xl mx-auto">我们整理了用户最常问的问题，如果您有其他疑问，欢迎联系我们的客服团队</p>
                 </div>
                 <div class="space-y-4 reveal">
-                    <!-- FAQ 1 -->
-                    <div x-data="{ open: false }" class="glass-card rounded-xl">
-                        <button @click="open = !open" class="w-full text-left flex justify-between items-center p-6">
-                            <span class="font-bold text-lg">你们的“AI+专家”模式和纯AI工具有何不同？</span>
+                    <!-- FAQ 1: 图角兽适合哪些类型的卖家？ -->
+                    <div x-data="{ open: false }" class="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+                        <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-400"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>
+                                <span class="text-lg font-medium text-white">图角兽适合哪些类型的卖家？</span>
+                            </div>
                             <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <div x-show="open" x-collapse class="px-6 pb-6 text-slate-300">
-                            <p>纯AI工具产出的图片往往缺乏品牌深度和消费者洞察，容易显得“模板化”。我们的模式是：AI负责效率，它能快速生成符合亚马逊规范和爆款特征的多种视觉方案；而电商专家则负责策略与灵魂，他们会基于您的品牌、竞品和用户痛点进行精修和审核，确保最终交付的不仅是“好看的图”，更是“能打的视觉子弹”。</p>
+                        <div x-show="open" x-collapse class="px-6 pb-4 text-slate-400 border-t border-slate-700 pt-4">
+                            图角兽特别适合亚马逊、eBay、Shopee、Lazada等电商平台的卖家，无论是个人卖家、小型店铺还是大型企业，都能通过我们的AI+专家模式快速创建专业级产品图片，提升产品转化率和销售额。
                         </div>
                     </div>
-                    <!-- FAQ 2 -->
-                    <div x-data="{ open: false }" class="glass-card rounded-xl">
-                        <button @click="open = !open" class="w-full text-left flex justify-between items-center p-6">
-                            <span class="font-bold text-lg">策略清单很详细，如果我提供不了那么多信息怎么办？</span>
+
+                    <!-- FAQ 2: 如何获得免费试用？ -->
+                    <div x-data="{ open: false }" class="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+                        <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><path d="M20 6 9 17l-5-5"></path></svg>
+                                <span class="text-lg font-medium text-white">如何获得免费试用？</span>
+                            </div>
                             <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <div x-show="open" x-collapse class="px-6 pb-6 text-slate-300">
-                            <p>完全不用担心。那份清单是我们用于深度合作的“策略沟通工具”，而不是“必填作业”。您只需提供您现有的核心资料（如产品链接），我们的策略师会主动引导您，通过沟通和分析，共同完善策略。您提供的信息越丰富，我们能为您创造的价值就越大。</p>
+                        <div x-show="open" x-collapse class="px-6 pb-4 text-slate-400 border-t border-slate-700 pt-4">
+                            注册账号后，系统会自动赠送10张免费设计额度，有效期为15天。您可以在这15天内体验我们的核心功能，包括产品主图优化、A+页面设计等。如果需要更多免费额度，可以通过邀请好友注册获得，每成功邀请一位好友，您将获得5张免费设计额度。
                         </div>
                     </div>
-                    <!-- FAQ 3 -->
-                    <div x-data="{ open: false }" class="glass-card rounded-xl">
-                        <button @click="open = !open" class="w-full text-left flex justify-between items-center p-6">
-                            <span class="font-bold text-lg">你们能保证提升转化率吗？</span>
+
+                    <!-- FAQ 3: 你们的"AI+专家"模式和纯AI工具有何不同？ -->
+                    <div x-data="{ open: false }" class="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+                        <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                                <span class="text-lg font-medium text-white">你们的"AI+专家"模式和纯AI工具有何不同？</span>
+                            </div>
                             <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <div x-show="open" x-collapse class="px-6 pb-6 text-slate-300">
-                            <p>我们承诺提供基于数据和行业最佳实践的高标准设计，这已经被我们过往的成功案例（如CVR平均提升30%）所证明。但任何专业的服务商都无法100%保证销售结果，因为它还受到您产品、定价、流量策略等多种因素的影响。我们的角色是为您提供最顶级的“视觉武器”，最大化您成功的概率。</p>
+                        <div x-show="open" x-collapse class="px-6 pb-4 text-slate-400 border-t border-slate-700 pt-4">
+                            纯AI工具产出的图片往往缺乏品牌深度和消费者洞察，容易显得"模板化"。我们的模式是：AI负责效率，它能快速生成符合亚马逊规范和爆款特征的多种视觉方案；而电商专家则负责策略与灵魂，他们会基于您的品牌、竞品和用户痛点进行精修和审核，确保最终交付的不仅是"好看的图"，更是"能打的视觉子弹"。
                         </div>
                     </div>
-                     <!-- FAQ 4 -->
-                     <div x-data="{ open: false }" class="glass-card rounded-xl">
-                        <button @click="open = !open" class="w-full text-left flex justify-between items-center p-6">
-                            <span class="font-bold text-lg">我们是有严格VI规范的品牌方，你们能遵守吗？</span>
+
+                    <!-- FAQ 4: 策略清单很详细，如果我提供不了那么多信息怎么办？ -->
+                    <div x-data="{ open: false }" class="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+                        <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <span class="text-lg font-medium text-white">策略清单很详细，如果我提供不了那么多信息怎么办？</span>
+                            </div>
                             <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <div x-show="open" x-collapse class="px-6 pb-6 text-slate-300">
-                            <p>完全可以，并且我们非常擅长。在我们的策略清单中，就有专门的项目让您提供品牌Logo矢量文件和VI视觉规范（标准色、字体等）。我们的专家团队会确保所有设计产出都严格遵循您的品牌规范，在提升电商表现的同时，强化您统一的品牌形象。</p>
+                        <div x-show="open" x-collapse class="px-6 pb-4 text-slate-400 border-t border-slate-700 pt-4">
+                            完全不用担心。那份清单是我们用于深度合作的"策略沟通工具"，而不是"必填作业"。您只需提供您现有的核心资料（如产品链接），我们的策略师会主动引导您，通过沟通和分析，共同完善策略。您提供的信息越丰富，我们能为您创造的价值就越大。
                         </div>
+                    </div>
+
+                    <!-- FAQ 5: 免费额度的有效期是多久？如何消耗？ -->
+                    <div x-data="{ open: false }" class="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+                        <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-400"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>
+                                <span class="text-lg font-medium text-white">免费额度的有效期是多久？如何消耗？</span>
+                            </div>
+                            <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-collapse class="px-6 pb-4 text-slate-400 border-t border-slate-700 pt-4">
+                            所有免费额度的有效期为15天。系统会优先消耗即将过期的免费额度，以确保您的权益最大化。每次邀请新用户注册获得的奖励额度，有效期从获得之时起重新计算15天。付费额度永久有效，在有免费额度时会优先使用免费额度。
+                        </div>
+                    </div>
+
+                    <!-- FAQ 6: 你们能保证提升转化率吗？ -->
+                    <div x-data="{ open: false }" class="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+                        <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>
+                                <span class="text-lg font-medium text-white">你们能保证提升转化率吗？</span>
+                            </div>
+                            <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-collapse class="px-6 pb-4 text-slate-400 border-t border-slate-700 pt-4">
+                            我们承诺提供基于数据和行业最佳实践的高标准设计，这已经被我们过往的成功案例（如CVR平均提升30%）所证明。但任何专业的服务商都无法100%保证销售结果，因为它还受到您产品、定价、流量策略等多种因素的影响。我们的角色是为您提供最顶级的"视觉武器"，最大化您成功的概率。
+                        </div>
+                    </div>
+
+                    <!-- FAQ 7: 我们是有严格VI规范的品牌方，你们能遵守吗？ -->
+                    <div x-data="{ open: false }" class="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+                        <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"></path><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"></path></svg>
+                                <span class="text-lg font-medium text-white">我们是有严格VI规范的品牌方，你们能遵守吗？</span>
+                            </div>
+                            <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-collapse class="px-6 pb-4 text-slate-400 border-t border-slate-700 pt-4">
+                            完全可以，并且我们非常擅长。在我们的策略清单中，就有专门的项目让您提供品牌Logo矢量文件和VI视觉规范（标准色、字体等）。我们的专家团队会确保所有设计产出都严格遵循您的品牌规范，在提升电商表现的同时，强化您统一的品牌形象。
+                        </div>
+                    </div>
+
+                    <!-- FAQ 8: AI生成的图片会有水印吗？ -->
+                    <div x-data="{ open: false }" class="border border-slate-700 rounded-xl overflow-hidden bg-slate-800/50">
+                        <button @click="open = !open" class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>
+                                <span class="text-lg font-medium text-white">AI生成的图片会有水印吗？</span>
+                            </div>
+                            <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-collapse class="px-6 pb-4 text-slate-400 border-t border-slate-700 pt-4">
+                            所有付费用户生成的图片都不会有水印。免费用户生成的图片会带有图角兽的水印。升级为付费用户后，您可以重新生成无水印的图片，或者使用我们的专家编辑服务移除已有图片上的水印。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 联系我们区域 -->
+                <div class="mt-16 text-center reveal">
+                    <p class="text-xl text-slate-400 mb-6">还有其他问题？我们的客服团队随时为您提供帮助</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="#contact" class="cta-button text-white font-bold py-3 px-6 rounded-lg">联系我们</a>
                     </div>
                 </div>
             </div>
@@ -1385,15 +1531,26 @@
             setupIntersectionObserver() {
                 const options = {
                     root: null,
-                    rootMargin: '-40% 0px -40% 0px',
-                    threshold: 0
+                    rootMargin: '-10% 0px -10% 0px',
+                    threshold: [0, 0.05, 0.1, 0.3, 0.5]
                 };
 
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const index = parseInt(entry.target.dataset.serviceIndex);
-                            this.updateActiveService(index);
+                        const index = parseInt(entry.target.dataset.serviceIndex);
+
+                        if (entry.isIntersecting && entry.intersectionRatio > 0) {
+                            // 第一个服务项：只要开始进入视口就立即激活
+                            if (index === 0 && entry.intersectionRatio >= 0.05) {
+                                this.updateActiveService(index);
+                            }
+                            // 其他服务项：需要适当的可见性
+                            else if (index > 0 && entry.intersectionRatio >= 0.1) {
+                                // 确保是按顺序激活的
+                                if (index === this.currentService + 1 || index <= this.currentService) {
+                                    this.updateActiveService(index);
+                                }
+                            }
                         }
                     });
                 }, options);
@@ -1401,6 +1558,22 @@
                 this.serviceItems.forEach(item => {
                     observer.observe(item);
                 });
+
+                // 立即检查第一个服务项是否已经可见
+                this.checkFirstServiceVisibility();
+            }
+
+            checkFirstServiceVisibility() {
+                const firstService = this.serviceItems[0];
+                if (firstService) {
+                    const rect = firstService.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+
+                    // 如果第一个服务项的顶部已经进入视口或接近视口，立即激活
+                    if (rect.top < windowHeight * 0.9 && rect.bottom > 0) {
+                        this.updateActiveService(0);
+                    }
+                }
             }
 
             setupTouchSupport() {
@@ -1438,7 +1611,7 @@
                 const sectionTop = servicesSection.offsetTop;
                 const sectionBottom = sectionTop + servicesSection.offsetHeight;
 
-                if (scrollPosition >= sectionTop - 100 && scrollPosition <= sectionBottom - windowHeight) {
+                if (scrollPosition >= sectionTop - 50 && scrollPosition <= sectionBottom - windowHeight + 50) {
                     // Find the most visible service item
                     let mostVisibleIndex = 0;
                     let maxVisibility = 0;
@@ -1453,7 +1626,18 @@
                         }
                     });
 
-                    if (maxVisibility > windowHeight * 0.3) {
+                    // 设置更宽松的激活阈值，特别是对第一个服务项
+                    let threshold;
+                    if (mostVisibleIndex === 0) {
+                        threshold = windowHeight * 0.05; // 第一个服务项只需要5%的可见度
+                    } else if (mostVisibleIndex === 1) {
+                        threshold = windowHeight * 0.15; // 第二个服务项需要15%的可见度
+                    } else {
+                        threshold = windowHeight * 0.25; // 其他服务项需要25%的可见度
+                    }
+
+                    // 确保按顺序激活，避免跳跃
+                    if (mostVisibleIndex <= this.currentService + 1 && maxVisibility > threshold) {
                         this.updateActiveService(mostVisibleIndex);
                     }
                 }
@@ -1517,7 +1701,28 @@
 
         // Initialize Interactive Services when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            new InteractiveServices();
+            const interactiveServices = new InteractiveServices();
+
+            // 多次检查第一个服务项的可见性，确保及时激活
+            const checkVisibility = () => {
+                interactiveServices.checkFirstServiceVisibility();
+            };
+
+            // 立即检查一次
+            checkVisibility();
+
+            // 延迟检查，确保页面完全加载后再检查
+            setTimeout(checkVisibility, 100);
+
+            // 页面加载完成后再次检查
+            window.addEventListener('load', () => {
+                setTimeout(checkVisibility, 200);
+            });
+
+            // 监听窗口大小变化，重新检查可见性
+            window.addEventListener('resize', () => {
+                setTimeout(checkVisibility, 100);
+            });
         });
     </script>
 </body>
