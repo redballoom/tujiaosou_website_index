@@ -504,12 +504,12 @@
 
     </style>
 </head>
-<body class="antialiased" x-data="{ showAgentModal: false, showStrategyModal: false }">
+<body class="antialiased" x-data="{ showAgentModal: false, showStrategyModal: false, showVideoModal: false, showQRCodeModal: false, showContactImageModal: false, showBackToTop: false }" x-init="window.addEventListener('scroll', () => { showBackToTop = window.pageYOffset > 300 })">
 
     <!-- Header -->
     <header class="sticky top-0 z-40 bg-slate-900/70 backdrop-blur-lg">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-black gradient-text">图角兽</div>
+            <div class="text-2xl font-black gradient-text">图灵兽</div>
             <div class="hidden md:flex space-x-8 items-center">
                 <a href="#comparison" class="hover:text-sky-400 transition">优势对比</a>
                 <a href="#services" class="hover:text-sky-400 transition">服务内容</a>
@@ -517,7 +517,7 @@
                 <a href="#pricing" class="hover:text-sky-400 transition">价格方案</a>
                 <a href="#faq" class="hover:text-sky-400 transition">常见问题</a>
             </div>
-            <a href="#contact" class="cta-button text-white font-bold py-2 px-6 rounded-lg">立即咨询</a>
+            <a href="#faq-contact-text" class="cta-button text-white font-bold py-2 px-6 rounded-lg">立即咨询</a>
         </nav>
     </header>
 
@@ -529,7 +529,20 @@
                     <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight">还在为Listing图片发愁?</h1>
                     <h2 class="text-4xl md:text-6xl font-black mb-6 leading-tight gradient-text">您的专属AI美工团队已上线</h2>
                     <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">我们融合AI技术与电商专家经验，为您提供高转化、高效率、高性价比的亚马逊视觉解决方案。停止内耗，专注增长。</p>
-                    <a href="#contact" class="cta-button text-white font-bold py-4 px-10 rounded-lg text-lg">免费获取视觉诊断</a>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <a href="#faq-contact-text" class="cta-button text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            注册即送10次免费生图
+                        </a>
+                        <button @click="showVideoModal = true" class="secondary-button bg-slate-700/80 hover:bg-slate-600/80 text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center justify-center backdrop-blur-sm border border-slate-600/50 hover:border-slate-500/50 transition-all duration-300 hover:scale-105">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            观看演示
+                        </button>
+                    </div>
                     
                     <!-- Image Slideshow -->
                     <div class="mt-8 max-w-4xl mx-auto p-4 rounded-xl glass-card">
@@ -1231,9 +1244,9 @@
 
                 <!-- 联系我们区域 -->
                 <div class="mt-16 text-center reveal">
-                    <p class="text-xl text-slate-400 mb-6">还有其他问题？我们的客服团队随时为您提供帮助</p>
+                    <p id="faq-contact-text" class="text-xl text-slate-400 mb-6">还有其他问题？我们的客服团队随时为您提供帮助</p>
                     <div class="flex flex-wrap justify-center gap-4">
-                        <a href="#contact" class="cta-button text-white font-bold py-3 px-6 rounded-lg">联系我们</a>
+                        <button @click="showContactImageModal = true" class="cta-button text-white font-bold py-3 px-6 rounded-lg">联系我们</button>
                     </div>
                 </div>
             </div>
@@ -1602,5 +1615,112 @@
             }, 100);
         });
     </script>
+  <!-- Video Modal -->
+    <div x-show="showVideoModal"
+         x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+         x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm p-4" style="display: none;">
+        <div @click.away="showVideoModal = false"
+             x-show="showVideoModal"
+             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+             class="relative w-full max-w-5xl aspect-video rounded-xl overflow-hidden shadow-2xl border border-slate-700/50">
+
+            <!-- 关闭按钮 -->
+            <button @click="showVideoModal = false"
+                    class="absolute top-4 right-4 z-10 w-10 h-10 bg-slate-900/80 hover:bg-slate-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:text-sky-400 transition-all duration-300 border border-slate-600/50 hover:border-sky-400/50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- 视频容器 -->
+            <div class="w-full h-full bg-slate-900 rounded-xl overflow-hidden">
+                <iframe
+                    src="//player.bilibili.com/player.html?isOutside=true&aid=115355104118127&bvid=BV1Vq4FzGEDz&cid=32993181868&p=1&autoplay=0"
+                    scrolling="no"
+                    border="0"
+                    frameborder="no"
+                    framespacing="0"
+                    allowfullscreen="true"
+                    class="w-full h-full rounded-xl"
+                    x-show="showVideoModal">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+  <!-- Contact Image Modal -->
+    <div x-show="showContactImageModal"
+         x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+         x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 backdrop-blur-sm p-4" style="display: none;">
+        <div @click.away="showContactImageModal = false"
+             x-show="showContactImageModal"
+             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+             class="relative w-full h-full max-w-5xl max-h-[90vh] flex flex-col">
+
+            <!-- 关闭按钮 -->
+            <button @click="showContactImageModal = false"
+                    class="absolute top-4 right-4 z-10 w-10 h-10 bg-slate-900/80 hover:bg-slate-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:text-sky-400 transition-all duration-300 border border-slate-600/50 hover:border-sky-400/50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- 图片容器 -->
+            <div class="flex-1 flex items-center justify-center overflow-hidden rounded-xl">
+                <div class="relative w-full h-full flex items-center justify-center">
+                    <!-- 主图片 - 可点击任意图片路径 -->
+                    <img src="public_img/qiye_wexin.jpg"
+                         alt="联系我们"
+                         class="max-w-full max-h-full object-contain cursor-pointer transition-transform duration-300 hover:scale-105"
+                         @dblclick="showContactImageModal = false; window.open('public_img/qiye_wexin.jpg', '_blank')"
+                         onerror="this.src='https://via.placeholder.com/800x600/f0f0f0/666666?text=Contact+Image'">
+                </div>
+            </div>
+
+            <!-- 底部操作提示 -->
+            <div class="bg-slate-800/90 backdrop-blur-sm p-4 border-t border-slate-700/50 rounded-b-xl">
+                <div class="flex items-center justify-between text-sm text-slate-300">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-sky-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
+                            </svg>
+                            <span>单击关闭</span>
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                            </svg>
+                            <span>双击图片在新窗口打开</span>
+                        </div>
+                    </div>
+                    <div class="text-xs text-slate-400">
+                        <span>提示：双击图片可查看原图</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Back to Top Button -->
+    <button x-show="showBackToTop"
+            x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-4"
+            @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+            class="fixed bottom-8 right-8 z-50 w-12 h-12 bg-gradient-to-br from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center group border border-sky-400/50 backdrop-blur-sm"
+            style="display: none;"
+            title="回到顶部">
+        <svg class="w-6 h-6 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z"/>
+        </svg>
+        <span class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-slate-800 text-white text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+            回到顶部
+        </span>
+    </button>
+
 </body>
 </html>
