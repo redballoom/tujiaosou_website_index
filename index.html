@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -1156,6 +1157,7 @@
                 copiedCode: false,
                 showToast: false,
                 toastMessage: '',
+                chartInitialized: false,
 
                 copyLink() {
                     navigator.clipboard.writeText('https://tujiaosou.com/reg?invite=YOURCODE');
@@ -1180,6 +1182,17 @@
                     this.toastMessage = message;
                     this.showToast = true;
                     setTimeout(() => this.showToast = false, 3000);
+                },
+
+                initChart() {
+                    if (this.activeTab === 'overview' && !this.chartInitialized) {
+                        setTimeout(() => {
+                            if (typeof initRevenueChart === 'function') {
+                                initRevenueChart();
+                                this.chartInitialized = true;
+                            }
+                        }, 100);
+                    }
                 }
             }">
                 <!-- 标题 -->
@@ -1211,7 +1224,7 @@
                             <div class="flex">
                                 <template x-for="tab in ['overview', 'structure', 'materials']">
                                     <button
-                                        @click="activeTab = tab"
+                                        @click="activeTab = tab; initChart()"
                                         :class="activeTab === tab ? 'text-white bg-sky-600/20 border-b-2 border-sky-400' : 'text-slate-400 hover:text-white hover:bg-slate-800/20'"
                                         class="flex-1 px-4 py-3.5 text-sm font-medium transition-all duration-300">
                                         <span x-text="tab === 'overview' ? '概览' : tab === 'structure' ? '分润结构' : '推广素材'"></span>
@@ -1289,32 +1302,14 @@
                                     </div>
                                 </div>
 
-                                <!-- 简化收入趋势 -->
+                                <!-- 收入趋势 - Chart.js 交互式折线图 -->
                                 <div class="bg-slate-900/40 p-5 rounded-xl border border-slate-700/30">
                                     <div class="flex items-center justify-between mb-3">
                                         <h3 class="text-base font-semibold text-white">收入趋势</h3>
                                         <span class="text-green-400 text-sm">+75%</span>
                                     </div>
-                                    <div class="h-36">
-                                        <svg class="w-full h-full" viewBox="0 0 400 160">
-                                            <defs>
-                                                <linearGradient id="trendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                    <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:1" />
-                                                    <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
-                                                </linearGradient>
-                                            </defs>
-                                            <polyline points="40,120 90,100 140,85 190,70 240,55 290,45 340,35"
-                                                     stroke="url(#trendGradient)" stroke-width="2.5" fill="none"/>
-                                            <polyline points="40,120 90,100 140,85 190,70 240,55 290,45 340,35 340,140 40,140"
-                                                     fill="url(#trendGradient)" opacity="0.08"/>
-                                            <circle cx="40" cy="120" r="3" fill="#0ea5e9"/>
-                                            <circle cx="90" cy="100" r="3" fill="#3b82f6"/>
-                                            <circle cx="140" cy="85" r="3" fill="#6366f1"/>
-                                            <circle cx="190" cy="70" r="3" fill="#8b5cf6"/>
-                                            <circle cx="240" cy="55" r="3" fill="#a855f7"/>
-                                            <circle cx="290" cy="45" r="3" fill="#c084fc"/>
-                                            <circle cx="340" cy="35" r="4" fill="#ec4899"/>
-                                        </svg>
+                                    <div class="h-64 relative">
+                                        <canvas id="revenueChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -2156,11 +2151,123 @@
             }
         }
 
+        // 收入趋势图表配置和数据
+        const revenueData = [
+            { month: '1月', revenue: 1200 },
+            { month: '2月', revenue: 1900 },
+            { month: '3月', revenue: 1500 },
+            { month: '4月', revenue: 2400 },
+            { month: '5月', revenue: 2100 },
+            { month: '6月', revenue: 3200 },
+        ];
+
+        function initRevenueChart() {
+            const ctx = document.getElementById('revenueChart');
+            if (!ctx) return;
+
+            const gradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(56, 189, 248, 0.3)');
+            gradient.addColorStop(1, 'rgba(139, 92, 246, 0.05)');
+
+            const lineGradient = ctx.getContext('2d').createLinearGradient(0, 0, 600, 0);
+            lineGradient.addColorStop(0, '#38bdf8');
+            lineGradient.addColorStop(1, '#8b5cf6');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: revenueData.map(item => item.month),
+                    datasets: [{
+                        label: '收入',
+                        data: revenueData.map(item => item.revenue),
+                        borderColor: lineGradient,
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#38bdf8',
+                        pointBorderColor: '#1e293b',
+                        pointBorderWidth: 2,
+                        pointHoverBackgroundColor: '#8b5cf6',
+                        pointHoverBorderColor: '#fff',
+                        pointHoverBorderWidth: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(31, 41, 55, 0.95)',
+                            titleColor: '#e5e7eb',
+                            bodyColor: '#9ca3af',
+                            borderColor: '#374151',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            padding: 12,
+                            displayColors: false,
+                            callbacks: {
+                                title: function(context) {
+                                    return context[0].label;
+                                },
+                                label: function(context) {
+                                    return '收入: ¥' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(75, 85, 99, 0.2)',
+                                drawBorder: false,
+                            },
+                            ticks: {
+                                color: '#9ca3af',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(75, 85, 99, 0.2)',
+                                drawBorder: false,
+                            },
+                            ticks: {
+                                color: '#9ca3af',
+                                font: {
+                                    size: 12
+                                },
+                                callback: function(value) {
+                                    return '¥' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+        }
+
         // Initialize Interactive Services when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             // 直接启动交互功能，不需要等待Alpine.js
             setTimeout(() => {
                 const interactiveServices = new InteractiveServices();
+                initRevenueChart(); // 初始化收入趋势图表
             }, 100);
         });
     </script>
