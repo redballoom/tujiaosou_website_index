@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图角兽 - 亚马逊视觉策略专家</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cta-button {
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Scroll Animation */
+        .reveal {
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Logo Scroller */
+        .scroller {
+            overflow: hidden;
+            -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+            mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+        }
+        .scroller__inner {
+            display: flex;
+            flex-wrap: nowrap;
+            width: max-content;
+            animation: scroll 20s linear infinite;
+        }
+        .scroller[data-animated="true"]:hover .scroller__inner {
+            animation-play-state: paused;
+        }
+        @keyframes scroll {
+            to {
+                transform: translate(calc(-50% - 0.5rem));
+            }
+        }
+        .logo-item {
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* bold */
+            color: #94a3b8; /* slate-400 */
+            flex-shrink: 0;
+            padding: 0 2rem;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        .logo-item:hover {
+            opacity: 1;
+        }
+
+        /* Service images responsive optimization */
+        @media (max-width: 768px) {
+            .aspect-\[4\/3\] {
+                aspect-ratio: 3/2;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .aspect-\[4\/3\] {
+                aspect-ratio: 1/1;
+            }
+        }
+
+    </style>
+</head>
+<body class="antialiased" x-data="{ showAgentModal: false, showStrategyModal: false }">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-slate-900/70 backdrop-blur-lg">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-black gradient-text">图角兽</div>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#comparison" class="hover:text-sky-400 transition">优势对比</a>
+                <a href="#services" class="hover:text-sky-400 transition">服务内容</a>
+                <a href="#portfolio" class="hover:text-sky-400 transition">成功案例</a>
+                <a href="#pricing" class="hover:text-sky-400 transition">价格方案</a>
+                <a href="#faq" class="hover:text-sky-400 transition">常见问题</a>
+            </div>
+            <a href="#contact" class="cta-button text-white font-bold py-2 px-6 rounded-lg">立即咨询</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="py-24 text-center bg-cover bg-center" style="background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 1)), url('https://placehold.co/1920x1080/0f172a/38bdf8?text=');">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight">还在为Listing图片发愁?</h1>
+                    <h2 class="text-4xl md:text-6xl font-black mb-6 leading-tight gradient-text">您的专属AI美工团队已上线</h2>
+                    <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">我们融合AI技术与电商专家经验，为您提供高转化、高效率、高性价比的亚马逊视觉解决方案。停止内耗，专注增长。</p>
+                    <a href="#contact" class="cta-button text-white font-bold py-4 px-10 rounded-lg text-lg">免费获取视觉诊断</a>
+                    
+                    <!-- Image Slideshow -->
+                    <div class="mt-8 max-w-4xl mx-auto p-4 rounded-xl glass-card">
+                        <div x-data="{ activeSlide: 1, autoSlide() { setInterval(() => { this.activeSlide = this.activeSlide === 3 ? 1 : this.activeSlide + 1 }, 5000) } }" x-init="autoSlide()" class="relative aspect-video rounded-lg overflow-hidden">
+                            <!-- Slide 1 -->
+                            <div x-show="activeSlide === 1" x-transition:enter="transition ease-in-out duration-1000" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in-out duration-1000" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute inset-0">
+                                <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/503b78598ff4f6e2cf9d310cb23ebeda.jpg" alt="产品图片优化案例一" class="w-full h-full object-cover">
+                            </div>
+                            <!-- Slide 2 -->
+                            <div x-show="activeSlide === 2" x-transition:enter="transition ease-in-out duration-1000" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in-out duration-1000" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute inset-0" style="display: none;">
+                                <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/3bc31019ebba9c80574cd2d83ebf32e6.jpg" alt="产品图片优化案例二" class="w-full h-full object-cover">
+                            </div>
+                            <!-- Slide 3 -->
+                            <div x-show="activeSlide === 3" x-transition:enter="transition ease-in-out duration-1000" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in-out duration-1000" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute inset-0" style="display: none;">
+                                <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/aa1c0b7a456d811d81f625dbcfc38d9e.jpg" alt="产品图片优化案例三" class="w-full h-full object-cover">
+                            </div>
+                    
+                            <!-- Dots -->
+                            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
+                                <button @click="activeSlide = 1" :class="{'bg-sky-400': activeSlide === 1, 'bg-slate-500/70': activeSlide !== 1}" class="w-2.5 h-2.5 rounded-full hover:bg-sky-300 transition"></button>
+                                <button @click="activeSlide = 2" :class="{'bg-sky-400': activeSlide === 2, 'bg-slate-500/70': activeSlide !== 2}" class="w-2.5 h-2.5 rounded-full hover:bg-sky-300 transition"></button>
+                                <button @click="activeSlide = 3" :class="{'bg-sky-400': activeSlide === 3, 'bg-slate-500/70': activeSlide !== 3}" class="w-2.5 h-2.5 rounded-full hover:bg-sky-300 transition"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trusted By Section -->
+        <section class="py-12 bg-slate-900/70">
+            <div class="container mx-auto px-6">
+                 <div class="scroller" data-animated="true">
+                    <div class="scroller__inner">
+                        <div class="logo-item">ANKER</div>
+                        <div class="logo-item">DJI</div>
+                        <div class="logo-item">Baseus</div>
+                        <div class="logo-item">UGREEN</div>
+                        <div class="logo-item">Xiaomi</div>
+                        <div class="logo-item">Anker</div>
+                        <div class="logo-item">DJI</div>
+                        <div class="logo-item">Baseus</div>
+                        <div class="logo-item">UGREEN</div>
+                        <div class="logo-item">Xiaomi</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Section -->
+        <section id="comparison" class="py-20 bg-slate-900/70">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <h3 class="text-3xl md:text-5xl font-black mb-4">还在用“传统作坊”挑战“平台正规军”？</h3>
+                    <p class="text-slate-400 max-w-3xl mx-auto">在存量竞争时代，效率和成本决定生死。您的每一个决策，都在影响最终的利润。</p>
+                </div>
+                <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-x-8 gap-y-12">
+                    <div class="reveal">
+                        <h4 class="text-2xl md:text-3xl font-bold mb-6 text-center text-orange-400/80">传统视觉设计模式</h4>
+                        <div class="space-y-6">
+                            <div class="glass-card p-6 rounded-xl border border-orange-500/30">
+                                <div class="flex items-start gap-4">
+                                    <div class="text-orange-500/80 mt-1 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
+                                    <div>
+                                        <h5 class="font-bold text-lg text-white">惊人的时间成本</h5>
+                                        <p class="text-slate-400 mt-1">一套图从拍摄到上线，平均耗时 <strong class="text-orange-400">15-20</strong> 天。错过Prime Day, 黑五等大促窗口，意味着错失全年 <strong class="text-orange-400">50%</strong> 以上的销售额。</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="glass-card p-6 rounded-xl border border-orange-500/30">
+                                <div class="flex items-start gap-4">
+                                    <div class="text-orange-500/80 mt-1 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
+                                    <div>
+                                        <h5 class="font-bold text-lg text-white">高昂的人力成本</h5>
+                                        <p class="text-slate-400 mt-1">至少需要摄影、设计、运营等 <strong class="text-orange-400">3-5</strong> 个岗位协作，月均用人成本高达 <strong class="text-orange-400">¥30,000-¥80,000</strong>。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="glass-card p-6 rounded-xl border border-orange-500/30">
+                                <div class="flex items-start gap-4">
+                                    <div class="text-orange-500/80 mt-1 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0l5-5m0 0l5 5m-5-5v12"></path></svg></div>
+                                    <div>
+                                        <h5 class="font-bold text-lg text-white">不可控的效果风险</h5>
+                                        <p class="text-slate-400 mt-1">效果依赖设计师个人审美，<strong class="text-orange-400">60%</strong> 的概率需二次以上修改，严重拖慢运营节奏。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="glass-card p-6 rounded-xl border border-orange-500/30">
+                                <div class="flex items-start gap-4">
+                                    <div class="text-orange-500/80 mt-1 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg></div>
+                                    <div>
+                                        <h5 class="font-bold text-lg text-white">侵蚀的营收利润</h5>
+                                        <p class="text-slate-400 mt-1">平庸的图片导致CVR低于行业平均<strong class="text-orange-400">2%</strong>，广告ACOS飙升至<strong class="text-orange-400">50%</strong>以上，高成本叠加低转化，利润雪上加霜。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reveal" style="transition-delay: 200ms;">
+                        <h4 class="text-2xl md:text-3xl font-bold mb-6 text-center text-sky-400">我们的AI解决方案</h4>
+                        <div class="space-y-6">
+                            <div class="glass-card p-6 rounded-xl border border-sky-500/50 bg-sky-500/10">
+                                <div class="flex items-start gap-4">
+                                    <div class="text-sky-400 mt-1 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
+                                    <div>
+                                        <h5 class="font-bold text-lg text-white">效率指数级提升</h5>
+                                        <p class="text-slate-300 mt-1">AI 驱动，从需求到交付仅需 <strong class="text-sky-300">48</strong> 小时。AI系统 <strong class="text-sky-300">24/7</strong> 全天候待命，确保您绝不错过任何一个流量高峰。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="glass-card p-6 rounded-xl border border-sky-500/50 bg-sky-500/10">
+                                <div class="flex items-start gap-4">
+                                    <div class="text-sky-400 mt-1 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
+                                    <div>
+                                        <h5 class="font-bold text-lg text-white">成本结构性优化</h5>
+                                        <p class="text-slate-300 mt-1">一个接口，对接一整个AI+专家团队。将您的固定用人成本降为 <strong class="text-sky-300">0</strong>，只为最终的增长效果付费。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="glass-card p-6 rounded-xl border border-sky-500/50 bg-sky-500/10">
+                                <div class="flex items-start gap-4">
+                                    <div class="text-sky-400 mt-1 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg></div>
+                                    <div>
+                                        <h5 class="font-bold text-lg text-white">确定性的增长效果</h5>
+                                        <p class="text-slate-300 mt-1">数据驱动创意。AI学习海量爆款图片特征，首稿满意率高达 <strong class="text-sky-300">90%</strong> 以上，让每张图都成为视觉子弹。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="glass-card p-6 rounded-xl border border-sky-500/50 bg-sky-500/10">
+                                <div class="flex items-start gap-4">
+                                    <div class="text-sky-400 mt-1 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 12v-2m0 2v.01M12 12a2 2 0 01-2-2h4a2 2 0 01-2 2z"></path></svg></div>
+                                    <div>
+                                        <h5 class="font-bold text-lg text-white">驱动营收利润增长</h5>
+                                        <p class="text-slate-300 mt-1">降本增效，直接拉升利润率。CVR平均提升<strong class="text-sky-300">30%</strong>，ACOS优化至<strong class="text-sky-300">15%</strong>以内，助您实现<strong class="text-sky-300">5-10%</strong>的净利润率提升。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 bg-slate-800/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-2">一站式解决您的所有视觉需求</h3>
+                    <p class="text-slate-400 max-w-2xl mx-auto">我们不仅仅是美工，更是您亚马逊业务的增长伙伴。</p>
+                </div>
+                <div class="space-y-12 md:space-y-16">
+                    <div class="grid md:grid-cols-2 gap-12 items-center reveal">
+                        <div class="glass-card p-4 rounded-xl">
+                            <div class="aspect-[4/3] overflow-hidden rounded-lg">
+                                <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/9eec45e0e9428b7c15b199bda8877041.jpeg" alt="Listing主图优化案例" class="w-full h-full object-cover shadow-2xl hover:scale-105 transition-transform duration-300">
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="gradient-text text-xl font-bold mb-2">01. Listing 主图优化</h4>
+                            <h5 class="text-3xl font-bold mb-4 text-white">让流量从第一眼开始</h5>
+                            <p class="text-slate-400 text-lg leading-relaxed">主图是流量的入口。我们通过A/B测试与数据分析，结合消费心理学，打造高点击率(CTR)主图。优化后的主图平均可提升CTR <strong class="text-sky-400">18%</strong>以上，从第一眼就赢得宝贵的流量先机。</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-12 items-center reveal">
+                        <div>
+                            <h4 class="gradient-text text-xl font-bold mb-2">02. A+ 页面 (EBC) 设计</h4>
+                            <h5 class="text-3xl font-bold mb-4 text-white">用故事引爆转化</h5>
+                            <p class="text-slate-400 text-lg leading-relaxed">A+页面是转化的放大器。我们结合最新的GEO内容优化策略，为不同国家站点的消费者打造高代入感的品牌故事，深度展示产品价值。优化后的A+页面可将转化率(CVR)稳定提升 <strong class="text-sky-400">5%-15%</strong>。</p>
+                        </div>
+                         <div class="glass-card p-4 rounded-xl">
+                            <div class="aspect-[4/3] overflow-hidden rounded-lg">
+                                <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/b6cfb19d434d915545cde9506ddaa531.png" alt="A+页面设计案例" class="w-full h-full object-cover shadow-2xl hover:scale-105 transition-transform duration-300">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-12 items-center reveal">
+                        <div class="glass-card p-4 rounded-xl">
+                            <div class="aspect-[4/3] overflow-hidden rounded-lg">
+                                <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/0667c91c292522678bfe6e15b73c317c.png" alt="营销图片案例" class="w-full h-full object-cover shadow-2xl hover:scale-105 transition-transform duration-300">
+                            </div>
+                        </div>
+                        <div>
+                             <h4 class="gradient-text text-xl font-bold mb-2">03. 营销图片 (Posts)</h4>
+                            <h5 class="text-3xl font-bold mb-4 text-white">引爆社交流量</h5>
+                            <p class="text-slate-400 text-lg leading-relaxed">专为亚马逊Posts和站外社交流量设计。我们的创意素材不仅仅是图片，更是吸引眼球的社交货币，可将帖子互动率提升 <strong class="text-sky-400">超过300%</strong>，为您的品牌高效引流。</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-12 items-center reveal">
+                       <div>
+                           <h4 class="gradient-text text-xl font-bold mb-2">04. 品牌店铺 (Brand Store)</h4>
+                           <h5 class="text-3xl font-bold mb-4 text-white">构建您的品牌阵地</h5>
+                           <p class="text-slate-400 text-lg leading-relaxed">设计沉浸式品牌旗舰店，不仅是陈列商品，更是培养品牌忠诚度的阵地。一个精心设计的店铺，能有效提升复购率 <strong class="text-sky-400">12%</strong>，并将客单价(AOV)平均拉高 <strong class="text-sky-400">8%</strong>。</p>
+                       </div>
+                        <div class="glass-card p-4 rounded-xl">
+                           <div class="aspect-[4/3] overflow-hidden rounded-lg">
+                               <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/0d5f9f25aaa008c35e1a2229833811bc.png" alt="品牌店铺设计案例" class="w-full h-full object-cover shadow-2xl hover:scale-105 transition-transform duration-300">
+                           </div>
+                       </div>
+                   </div>
+                    <div class="grid md:grid-cols-2 gap-12 items-center reveal">
+                        <div class="glass-card p-4 rounded-xl">
+                            <div class="aspect-[4/3] overflow-hidden rounded-lg">
+                                <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/8dc464f9d024d179a37d1c9e01ee6cd0.png" alt="Shoppable Story案例" class="w-full h-full object-cover shadow-2xl hover:scale-105 transition-transform duration-300">
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="gradient-text text-xl font-bold mb-2">05. Shoppable Story 设计</h4>
+                            <h5 class="text-3xl font-bold mb-4 text-white">内容即是销量</h5>
+                            <p class="text-slate-400 text-lg leading-relaxed">内容电商的利器。我们将您的产品卖点无缝融入到引人入胜的故事线中，将内容流量高效转化为销量。我们的购物故事设计，能将内容引导的购买转化率提升至 <strong class="text-sky-400">20%</strong> 以上。</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-12 items-center reveal">
+                        <div>
+                            <h4 class="gradient-text text-xl font-bold mb-2">06. AI视频制作</h4>
+                            <h5 class="text-3xl font-bold mb-4 text-white">让产品“动”起来</h5>
+                            <p class="text-slate-400 text-lg leading-relaxed">视频是信息密度最高的媒介。AI高效生成高完播率、高转化的产品短视频。实验数据表明，相比纯图片，加入了视频的Listing页面最终转化率可再提升 <strong class="text-sky-400">9%</strong>。</p>
+                        </div>
+                         <div class="glass-card p-4 rounded-xl">
+                            <div class="aspect-[4/3] overflow-hidden rounded-lg">
+                                <video src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/c8a0cdb1fa568211347066b98947d379.mp4" class="w-full h-full object-cover shadow-2xl hover:scale-105 transition-transform duration-300" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section id="how-it-works" class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                <div class="reveal">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">仅需三步，开启增长</h3>
+                    <p class="text-slate-400 max-w-2xl mx-auto mb-12">我们简化了所有繁琐流程，让您专注于更重要的业务决策。</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="reveal">
+                        <div class="p-8 glass-card rounded-xl">
+                            <div class="text-5xl font-black gradient-text mb-4">1</div>
+                            <h4 class="text-xl font-bold mb-2">开启深度策略沟通</h4>
+                            <p class="text-slate-400">提供您的产品资料，我们共同完成一份价值导向的策略需求清单。</p>
+                             <button @click="showStrategyModal = true" class="mt-4 text-sky-400 font-bold hover:text-sky-300 transition">查看策略清单 &rarr;</button>
+                        </div>
+                    </div>
+                    <div class="reveal" style="transition-delay: 200ms;">
+                        <div class="p-8 glass-card rounded-xl">
+                            <div class="text-5xl font-black gradient-text mb-4">2</div>
+                            <h4 class="text-xl font-bold mb-2">AI生成与专家精修</h4>
+                            <p class="text-slate-400">AI快速生成多版视觉方案，再由行业专家进行精修与审核。</p>
+                        </div>
+                    </div>
+                    <div class="reveal" style="transition-delay: 400ms;">
+                        <div class="p-8 glass-card rounded-xl">
+                            <div class="text-5xl font-black gradient-text mb-4">3</div>
+                            <h4 class="text-xl font-bold mb-2">交付与效果追踪</h4>
+                            <p class="text-slate-400">在约定时间内交付高质量素材，并提供后续的数据效果追踪服务。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-20 bg-slate-800/50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">他们已经通过我们获得增长</h3>
+                    <p class="text-slate-400 max-w-xl mx-auto">数据不会说谎，看真实的增长故事。</p>
+                </div>
+                
+                <div class="space-y-16">
+                    <!-- Case Study 1: Tent -->
+                    <div class="reveal">
+                        <div class="glass-card rounded-xl overflow-hidden md:flex">
+                            <div class="md:w-1/2">
+                                <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/b96144789d1a7a5b0d9cb4164df76dd3.png" alt="户外帐篷案例" class="object-cover w-full h-full">
+                            </div>
+                            <div class="md:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+                                <p class="text-sm font-bold text-sky-400 uppercase tracking-wider">户外运动</p>
+                                <h4 class="text-2xl lg:text-3xl font-bold text-white mt-2">高端远征帐篷</h4>
+                                <p class="text-slate-400 mt-4 leading-relaxed">产品单价高，必须通过视觉建立极致的专业信赖感。我们为其打造了超写实的场景合成图，并深度优化A+页面，将复杂的材料科技转化为消费者一看就懂的视觉语言。</p>
+                                <div class="mt-6 flex flex-wrap gap-x-8 gap-y-4">
+                                    <div>
+                                        <p class="text-3xl font-black gradient-text">+45%</p>
+                                        <p class="text-sm text-slate-400">转化率提升</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-3xl font-black gradient-text">+18%</p>
+                                        <p class="text-sm text-slate-400">客单价提升</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-3xl font-black gradient-text">-25%</p>
+                                        <p class="text-sm text-slate-400">退货率降低</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Case Study 2: Underwear -->
+                    <div class="reveal">
+                        <div class="glass-card rounded-xl overflow-hidden md:flex">
+                            <div class="md:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+                                <p class="text-sm font-bold text-sky-400 uppercase tracking-wider">贴身衣物</p>
+                                <h4 class="text-2xl lg:text-3xl font-bold text-white mt-2">无痕科技内衣</h4>
+                                <p class="text-slate-400 mt-4 leading-relaxed">“舒适”的体感无法触摸，我们就用视觉来传递。通过创新的材质特写和生活方式场景图，我们帮助品牌在红海市场中脱颖而出，成功塑造了“第二层肌肤”的品牌心智。</p>
+                                <div class="mt-6 flex flex-wrap gap-x-8 gap-y-4">
+                                    <div>
+                                        <p class="text-3xl font-black gradient-text">+30%</p>
+                                        <p class="text-sm text-slate-400">点击率提升</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-3xl font-black gradient-text">+20%</p>
+                                        <p class="text-sm text-slate-400">复购率提升</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-3xl font-black gradient-text">4.7 ★</p>
+                                        <p class="text-sm text-slate-400">产品评分提升</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md:w-1/2">
+                                <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/df37affb1e0e37a5ecc70ad521bdf994.jpg" alt="无痕内衣案例" class="object-cover w-full h-full">
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- Case Study 3: Perfume -->
+                     <div class="reveal">
+                        <div class="glass-card rounded-xl overflow-hidden md:flex">
+                            <div class="md:w-1/2">
+                                <img src="https://pub-baeab7abc7d34e8aa75d82c685f6a972.r2.dev/2025/10/97cb3fbf3b9a4eb23c8bc42063c04cc2.png" alt="小众香水案例" class="object-cover w-full h-full">
+                            </div>
+                            <div class="md:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+                                <p class="text-sm font-bold text-sky-400 uppercase tracking-wider">个护美妆</p>
+                                <h4 class="text-2xl lg:text-3xl font-bold text-white mt-2">小众沙龙香水</h4>
+                                <p class="text-slate-400 mt-4 leading-relaxed">气味是抽象的，但情绪是相通的。我们为客户的每一款香水构建了独特的“气味故事”视觉系统，通过色彩、光影和构图，将抽象的嗅觉体验转化为直击人心的视觉语言。</p>
+                                <div class="mt-6 flex flex-wrap gap-x-8 gap-y-4">
+                                    <div>
+                                        <p class="text-3xl font-black gradient-text">+60%</p>
+                                        <p class="text-sm text-slate-400">品牌搜索量</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-3xl font-black gradient-text">+200%</p>
+                                        <p class="text-sm text-slate-400">社媒分享率</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-3xl font-black gradient-text">90%</p>
+                                        <p class="text-sm text-slate-400">新品成功率</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                <div class="reveal">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">选择适合您的方案</h3>
+                    <p class="text-slate-400 max-w-xl mx-auto mb-12">透明定价，无隐藏费用，只为增长付费。</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
+                    <div class="glass-card p-8 rounded-xl border border-slate-700 reveal h-full flex flex-col">
+                        <h4 class="text-xl font-bold mb-2">视觉优化套餐</h4>
+                        <p class="text-slate-400 text-sm mb-4">适合追求性价比的新手卖家</p>
+                        <p class="text-5xl font-black mb-4">¥980</p>
+                        <ul class="text-left space-y-3 text-slate-300 mb-8 flex-grow">
+                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>7张主图设计</span></li>
+                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>基础A+页面 (3个模块)</span></li>
+                        </ul>
+                        <button class="w-full bg-slate-600 text-white font-bold py-3 rounded-lg hover:bg-slate-500 transition mt-auto">立即开始</button>
+                    </div>
+                    <div class="glass-card p-8 rounded-xl border-2 border-sky-400 relative reveal h-full flex flex-col" style="transition-delay: 200ms; transform: scale(1.05);">
+                        <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-sky-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full">主推</div>
+                        <h4 class="text-xl font-bold mb-2">策略增长套餐</h4>
+                        <p class="text-slate-400 text-sm mb-4">适合希望打造爆款的精品卖家</p>
+                        <p class="text-5xl font-black mb-4">¥2,980</p>
+                        <ul class="text-left space-y-3 text-slate-300 mb-8 flex-grow">
+                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>7张主图 (含竞品分析)</span></li>
+                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>完整A+页面 (5-7模块)</span></li>
+                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>品牌故事页设计</span></li>
+                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>专业文案策划</span></li>
+                        </ul>
+                        <button class="w-full cta-button text-white font-bold py-3 rounded-lg mt-auto">立即开始</button>
+                    </div>
+                    <div class="glass-card p-8 rounded-xl border border-slate-700 reveal h-full flex flex-col" style="transition-delay: 400ms;">
+                        <h4 class="text-xl font-bold mb-2">品牌旗舰套餐</h4>
+                        <p class="text-slate-400 text-sm mb-4">适合追求长期价值的品牌方</p>
+                        <p class="text-5xl font-black mb-4">¥4,980</p>
+                        <ul class="text-left space-y-3 text-slate-300 mb-8 flex-grow">
+                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>包含进阶版所有内容</span></li>
+                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>A/B测试主图版</span></li>
+                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>3张营销图片 (社媒/广告)</span></li>
+                            <li class="flex items-start"><svg class="w-5 h-5 text-sky-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>专属项目经理</span></li>
+                        </ul>
+                        <button class="w-full bg-slate-600 text-white font-bold py-3 rounded-lg hover:bg-slate-500 transition mt-auto">定制方案</button>
+                    </div>
+                </div>
+                <div class="mt-16 reveal">
+                    <div class="glass-card max-w-4xl mx-auto p-8 rounded-xl border border-slate-700 text-center">
+                        <h4 class="text-2xl font-bold mb-3">需要定制服务或成为代理？</h4>
+                        <p class="text-slate-400 mb-6">我们提供灵活的合作模式，满足您的业务扩展需求。</p>
+                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                            <a href="#contact" class="w-full sm:w-auto cta-button text-white font-bold py-3 px-6 rounded-lg">获取专属报价</a>
+                            <button @click="showAgentModal = true" class="w-full sm:w-auto bg-slate-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-slate-500 transition">了解代理政策</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-20 bg-slate-900/70">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <div class="text-center mb-12 reveal">
+                    <h3 class="text-3xl md:text-4xl font-bold mb-4">还有疑问？</h3>
+                    <p class="text-slate-400">为您解答关于我们合作模式的核心问题。</p>
+                </div>
+                <div class="space-y-4 reveal">
+                    <!-- FAQ 1 -->
+                    <div x-data="{ open: false }" class="glass-card rounded-xl">
+                        <button @click="open = !open" class="w-full text-left flex justify-between items-center p-6">
+                            <span class="font-bold text-lg">你们的“AI+专家”模式和纯AI工具有何不同？</span>
+                            <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-collapse class="px-6 pb-6 text-slate-300">
+                            <p>纯AI工具产出的图片往往缺乏品牌深度和消费者洞察，容易显得“模板化”。我们的模式是：AI负责效率，它能快速生成符合亚马逊规范和爆款特征的多种视觉方案；而电商专家则负责策略与灵魂，他们会基于您的品牌、竞品和用户痛点进行精修和审核，确保最终交付的不仅是“好看的图”，更是“能打的视觉子弹”。</p>
+                        </div>
+                    </div>
+                    <!-- FAQ 2 -->
+                    <div x-data="{ open: false }" class="glass-card rounded-xl">
+                        <button @click="open = !open" class="w-full text-left flex justify-between items-center p-6">
+                            <span class="font-bold text-lg">策略清单很详细，如果我提供不了那么多信息怎么办？</span>
+                            <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-collapse class="px-6 pb-6 text-slate-300">
+                            <p>完全不用担心。那份清单是我们用于深度合作的“策略沟通工具”，而不是“必填作业”。您只需提供您现有的核心资料（如产品链接），我们的策略师会主动引导您，通过沟通和分析，共同完善策略。您提供的信息越丰富，我们能为您创造的价值就越大。</p>
+                        </div>
+                    </div>
+                    <!-- FAQ 3 -->
+                    <div x-data="{ open: false }" class="glass-card rounded-xl">
+                        <button @click="open = !open" class="w-full text-left flex justify-between items-center p-6">
+                            <span class="font-bold text-lg">你们能保证提升转化率吗？</span>
+                            <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-collapse class="px-6 pb-6 text-slate-300">
+                            <p>我们承诺提供基于数据和行业最佳实践的高标准设计，这已经被我们过往的成功案例（如CVR平均提升30%）所证明。但任何专业的服务商都无法100%保证销售结果，因为它还受到您产品、定价、流量策略等多种因素的影响。我们的角色是为您提供最顶级的“视觉武器”，最大化您成功的概率。</p>
+                        </div>
+                    </div>
+                     <!-- FAQ 4 -->
+                     <div x-data="{ open: false }" class="glass-card rounded-xl">
+                        <button @click="open = !open" class="w-full text-left flex justify-between items-center p-6">
+                            <span class="font-bold text-lg">我们是有严格VI规范的品牌方，你们能遵守吗？</span>
+                            <svg :class="{'rotate-180': open}" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" x-collapse class="px-6 pb-6 text-slate-300">
+                            <p>完全可以，并且我们非常擅长。在我们的策略清单中，就有专门的项目让您提供品牌Logo矢量文件和VI视觉规范（标准色、字体等）。我们的专家团队会确保所有设计产出都严格遵循您的品牌规范，在提升电商表现的同时，强化您统一的品牌形象。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-3xl mx-auto">
+                    <div class="reveal">
+                        <h3 class="text-3xl md:text-4xl font-bold mb-4">准备好提升您的品牌视觉了吗？</h3>
+                        <p class="text-slate-400 mb-8">立即联系我们，获取免费的Listing视觉诊断和专属优化方案。</p>
+                    </div>
+                    <div class="glass-card p-8 rounded-xl reveal">
+                        <form>
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <input type="text" placeholder="您的称呼" class="w-full bg-slate-700/50 text-white p-3 rounded-lg border border-slate-600 focus:ring-2 focus:ring-sky-400 focus:outline-none">
+                                <input type="email" placeholder="电子邮箱" class="w-full bg-slate-700/50 text-white p-3 rounded-lg border border-slate-600 focus:ring-2 focus:ring-sky-400 focus:outline-none">
+                            </div>
+                            <textarea placeholder="请简单描述您的产品和需求..." rows="5" class="w-full bg-slate-700/50 text-white p-3 rounded-lg border border-slate-600 mb-6 focus:ring-2 focus:ring-sky-400 focus:outline-none"></textarea>
+                            <button type="submit" class="cta-button w-full text-white font-bold py-4 px-10 rounded-lg text-lg">立即提交，开启增长</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900/50 py-8">
+        <div class="container mx-auto px-6 text-center text-slate-500">
+            <p>&copy; 2024 图角兽. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Agent Modal -->
+    <div x-show="showAgentModal" 
+         x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" 
+         x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" 
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm p-4" style="display: none;">
+        <div @click.away="showAgentModal = false" 
+             x-show="showAgentModal"
+             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+             class="glass-card rounded-xl border border-sky-500/50 w-full max-w-5xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold text-white">代理合作政策</h3>
+                    <button @click="showAgentModal = false" class="text-slate-400 hover:text-white transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left min-w-[700px]">
+                        <thead class="border-b border-slate-700">
+                            <tr>
+                                <th class="p-4 text-sm font-bold text-slate-300">代理级别</th>
+                                <th class="p-4 text-sm font-bold text-slate-300">预充值金额 (RMB)</th>
+                                <th class="p-4 text-sm font-bold text-slate-300">获得信用额度 (RMB)</th>
+                                <th class="p-4 text-sm font-bold text-slate-300">等效折扣</th>
+                                <th class="p-4 text-sm font-bold text-slate-300">核心权益与支持</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800">
+                            <tr class="hover:bg-slate-800/50"><td class="p-4 font-bold text-white">银牌代理</td><td class="p-4">¥ 20,000</td><td class="p-4">¥ 25,000</td><td class="p-4 font-bold text-sky-400">8折 (20% Off)</td><td class="p-4 text-slate-300">官方标准交付、项目优先排期</td></tr>
+                            <tr class="hover:bg-slate-800/50"><td class="p-4 font-bold text-white">金牌代理</td><td class="p-4">¥ 50,000</td><td class="p-4">¥ 70,000</td><td class="p-4 font-bold text-sky-400">约7.1折 (29% Off)</td><td class="p-4 text-slate-300">专属客服、项目加急通道、定期产品培训</td></tr>
+                            <tr class="hover:bg-slate-800/50"><td class="p-4 font-bold text-white">钻石代理</td><td class="p-4">¥ 100,000</td><td class="p-4">¥ 150,000</td><td class="p-4 font-bold text-sky-400">约6.7折 (33% Off)</td><td class="p-4 text-slate-300">专属设计团队支持、联合市场推广、季度策略会</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Strategy Modal -->
+    <div x-show="showStrategyModal" 
+         x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" 
+         x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" 
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm p-4" style="display: none;">
+        <div @click.away="showStrategyModal = false" 
+             x-show="showStrategyModal"
+             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+             class="glass-card rounded-xl border border-sky-500/50 w-full max-w-5xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-center mb-6 sticky top-0 bg-slate-800/80 backdrop-blur-sm -m-6 p-6 z-10">
+                    <h3 class="text-2xl font-bold text-white">综合策略需求清单</h3>
+                    <button @click="showStrategyModal = false" class="text-slate-400 hover:text-white transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                <div class="text-slate-300 mb-6">
+                    <p class="mb-2">感谢选择我们的高级设计服务。我们的目标是成为您的视觉策略伙伴，共同打造不仅美观，更能驱动商业增长的视觉资产。</p>
+                    <p>为达成此目标，请您尽可能详细地填写以下清单。您提供的信息越深入，我们为您创造的价值就越大。</p>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left min-w-[900px]">
+                        <thead class="border-b-2 border-slate-700">
+                            <tr>
+                                <th class="p-4 text-sm font-bold text-slate-300 w-1/6">分类</th>
+                                <th class="p-4 text-sm font-bold text-slate-300 w-1/4">需求项目</th>
+                                <th class="p-4 text-sm font-bold text-slate-300 w-1/3">备注说明</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800">
+                             <tr><td colspan="3" class="p-4 font-bold text-sky-400 bg-slate-800/50">Part 1: 战略与业务目标</td></tr>
+                            <tr class="hover:bg-slate-800/50"><td class="p-4 font-bold">1. 核心商业目标</td><td><textarea rows="2" class="w-full bg-slate-700/50 text-white p-2 rounded-lg border border-slate-600 focus:ring-1 focus:ring-sky-400 focus:outline-none"></textarea></td><td class="p-4 text-sm text-slate-400">本次设计的首要目的是什么？(例如: 提升5%转化率 / 支撑产品提价 / 击败某个竞品)</td></tr>
+                            <tr class="hover:bg-slate-800/50"><td class="p-4 font-bold">2. 独特价值主张 (UVP)</td><td><textarea rows="2" class="w-full bg-slate-700/50 text-white p-2 rounded-lg border border-slate-600 focus:ring-1 focus:ring-sky-400 focus:outline-none"></textarea></td><td class="p-4 text-sm text-slate-400">请用一句话说明，您的产品为客户提供的、且竞品难以复制的核心价值是什么？</td></tr>
+                             <tr><td colspan="3" class="p-4 font-bold text-sky-400 bg-slate-800/50">Part 2: 品牌与市场洞察</td></tr>
+                            <tr class="hover:bg-slate-800/50"><td class="p-4 font-bold">3. 品牌故事与使命</td><td><textarea rows="2" class="w-full bg-slate-700/50 text-white p-2 rounded-lg border border-slate-600 focus:ring-1 focus:ring-sky-400 focus:outline-none"></textarea></td><td class="p-4 text-sm text-slate-400">除了盈利，您的品牌为何存在？背后有什么故事、愿景或价值观希望传递给消费者？</td></tr>
+                            <tr class="hover:bg-slate-800/50"><td class="p-4 font-bold">4. 竞品分析 (Top 2-3)</td><td><textarea rows="2" placeholder="请提供竞品链接" class="w-full bg-slate-700/50 text-white p-2 rounded-lg border border-slate-600 focus:ring-1 focus:ring-sky-400 focus:outline-none"></textarea></td><td class="p-4 text-sm text-slate-400">您最欣赏/不欣赏竞品的哪些方面？相比他们，我们的核心优势是什么？</td></tr>
+                             <tr><td colspan="3" class="p-4 font-bold text-sky-400 bg-slate-800/50">Part 3: 核心产品信息</td></tr>
+                            <tr class="hover:bg-slate-800/50"><td class="p-4 font-bold">5. 核心卖点 (Top 3-5)</td><td><textarea rows="3" placeholder="1.&#10;2.&#10;3." class="w-full bg-slate-700/50 text-white p-2 rounded-lg border border-slate-600 focus:ring-1 focus:ring-sky-400 focus:outline-none"></textarea></td><td class="p-4 text-sm text-slate-400">请用精炼的语言概括，将产品**功能**转化为客户**利益**。</td></tr>
+                             <tr><td colspan="3" class="p-4 font-bold text-sky-400 bg-slate-800/50">Part 4: 设计要求与数据</td></tr>
+                            <tr class="hover:bg-slate-800/50"><td class="p-4 font-bold">6. 设计风格偏好</td><td><textarea rows="2" placeholder="例如: 科技感 / 极简现代 / 高端奢华 / 温馨居家" class="w-full bg-slate-700/50 text-white p-2 rounded-lg border border-slate-600 focus:ring-1 focus:ring-sky-400 focus:outline-none"></textarea></td><td class="p-4 text-sm text-slate-400">您期望的视觉风格？可以提供您欣赏的参考案例链接。</td></tr>
+                             <tr><td colspan="3" class="p-4 font-bold text-sky-400 bg-slate-800/50">Part 5: 项目资产交付</td></tr>
+                            <tr class="hover:bg-slate-800/50"><td class="p-4 font-bold">7. 核心项目资产</td><td><textarea rows="2" placeholder="请提供云盘链接" class="w-full bg-slate-700/50 text-white p-2 rounded-lg border border-slate-600 focus:ring-1 focus:ring-sky-400 focus:outline-none"></textarea></td><td class="p-4 text-sm text-slate-400">**【最重要】** 请将高清产品图片、品牌Logo矢量文件、品牌VI规范等所有相关资料打包上传。</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                 <div class="mt-8 text-center">
+                    <button @click="showStrategyModal = false" class="cta-button text-white font-bold py-3 px-8 rounded-lg">我已了解，开始沟通</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Scroll Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            for (let i = 0; i < revealElements.length; i++) {
+                const elementTop = revealElements[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    revealElements[i].classList.add('active');
+                } else {
+                    // Optional: remove active class to re-trigger animation on scroll up
+                    // revealElements[i].classList.remove('active');
+                }
+            }
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Trigger on load
+
+        // Logo Scroller Animation
+        const scrollers = document.querySelectorAll(".scroller");
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            addAnimation();
+        }
+        function addAnimation() {
+            scrollers.forEach((scroller) => {
+                scroller.setAttribute("data-animated", true);
+                const scrollerInner = scroller.querySelector(".scroller__inner");
+                const scrollerContent = Array.from(scrollerInner.children);
+                scrollerContent.forEach((item) => {
+                    const duplicatedItem = item.cloneNode(true);
+                    duplicatedItem.setAttribute("aria-hidden", true);
+                    scrollerInner.appendChild(duplicatedItem);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
