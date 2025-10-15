@@ -550,7 +550,7 @@
     <!-- Header -->
     <header class="sticky top-0 z-40 bg-slate-900/70 backdrop-blur-lg">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-black gradient-text">图灵兽</div>
+            <a href="/"><div class="text-2xl font-black gradient-text">图灵兽</div></a>
             <div class="hidden md:flex space-x-8 items-center">
                 <a href="#comparison" class="hover:text-sky-400 transition">优势对比</a>
                 <a href="#services" class="hover:text-sky-400 transition">服务内容</a>
@@ -606,7 +606,7 @@
                         <!-- 二维码容器 -->
                         <div class="relative mx-auto w-48 h-48 mb-4 qr-float">
                             <!-- 二维码图片 -->
-                            <img src="https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png"
+                            <img src="https://i.ibb.co/R11bfGS/li.png"
                                  alt="联系二维码"
                                  class="w-full h-full object-cover rounded-xl shadow-lg border-2 border-sky-400/30">
 
@@ -664,12 +664,12 @@
                     <h2 class="text-4xl md:text-6xl font-black mb-6 leading-tight gradient-text">您的专属AI美工团队已上线</h2>
                     <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">我们融合AI技术与电商专家经验，为您提供高转化、高效率、高性价比的亚马逊视觉解决方案。停止内耗，专注增长。</p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                        <a href="#faq-contact-text" class="cta-button text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center justify-center">
+                        <!-- <a href="#faq-contact-text" class="cta-button text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center justify-center">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
                             注册即送10次免费生图
-                        </a>
+                        </a> -->
                         <button @click="showVideoModal = true" class="secondary-button bg-slate-700/80 hover:bg-slate-600/80 text-white font-bold py-4 px-8 rounded-lg text-lg flex items-center justify-center backdrop-blur-sm border border-slate-600/50 hover:border-slate-500/50 transition-all duration-300 hover:scale-105">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z"/>
@@ -1612,14 +1612,89 @@
                         <div class="bg-gradient-to-br from-sky-600/30 to-purple-600/30 border border-sky-700/50 rounded-2xl p-6 shadow-xl">
                             <h3 class="text-xl font-bold text-white mb-3">立即加入分销计划</h3>
                             <p class="text-slate-300 text-sm mb-4">邀请20位有效用户，自动升级为团长，享受高达45%的现金返佣！</p>
-                            <button onclick="window.location.href='#faq-contact-text'" class="w-full py-3 bg-gradient-to-r from-sky-600 to-purple-600 hover:from-sky-700 hover:to-purple-700 rounded-lg text-white font-medium transition-colors flex items-center justify-center gap-2">
-                                <span>开始推广</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M7 7h10v10"></path>
-                                    <path d="M7 17 17 7"></path>
-                                </svg>
-                            </button>
-                        </div>
+                            <div class="relative" x-data="{推广DropdownOpen: false }">
+                                <button @click="推广DropdownOpen = !推广DropdownOpen"
+                                        :class="{ 'ring-2 ring-sky-400 ring-opacity-50': 推广DropdownOpen }"
+                                        class="w-full py-3 bg-gradient-to-r from-sky-600 to-purple-600 hover:from-sky-700 hover:to-purple-700 rounded-lg text-white font-medium transition-colors flex items-center justify-center gap-2 transform transition-all duration-300 hover:scale-105 active:scale-95">
+                                    <span>开始推广</span>
+                                    <svg class="w-4 h-4 transform transition-transform duration-300"
+                                         :class="{ 'rotate-180': 推广DropdownOpen }"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+
+                                <!-- 下拉二维码展示区域 -->
+                                <div x-show="推广DropdownOpen"
+                                     x-transition:enter="transition ease-out duration-500"
+                                     x-transition:enter-start="opacity-0 transform -translate-y-4 scale-95"
+                                     x-transition:enter-end="opacity-100 transform translate-y-0 scale-100"
+                                     x-transition:leave="transition ease-in duration-400"
+                                     x-transition:leave-start="opacity-100 transform translate-y-0 scale-100"
+                                     x-transition:leave-end="opacity-0 transform -translate-y-4 scale-95"
+                                     @click.away="推广DropdownOpen = false"
+                                     class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-80 z-20"
+                                     style="display: none;">
+
+                                    <!-- 箭头指示器 -->
+                                    <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-slate-900/95 backdrop-blur-lg transform rotate-45 border-t border-l border-slate-700/50"></div>
+
+                                    <!-- 主容器 -->
+                                    <div class="bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden qr-glow qr-shimmer">
+                                        <!-- 头部装饰 -->
+                                        <div class="h-1 bg-gradient-to-r from-sky-400 via-blue-500 to-purple-600 qr-pulse"></div>
+
+                                        <!-- 内容区域 -->
+                                        <div class="p-6">
+                                            <!-- 标题 -->
+                                            <div class="text-center mb-4">
+                                                <h3 class="text-lg font-bold text-white mb-1">扫码加入分销计划</h3>
+                                                <p class="text-sm text-slate-400">邀请20位有效用户，升级团长享受45%返佣</p>
+                                            </div>
+
+                                            <!-- 二维码容器 -->
+                                            <div class="relative mx-auto w-48 h-48 mb-4 qr-float">
+                                                <!-- 二维码图片 -->
+                                                <img src="https://i.ibb.co/R11bfGS/li.png"
+                                                     alt="推广二维码"
+                                                     class="w-full h-full object-cover rounded-xl shadow-lg border-2 border-sky-400/30">
+
+                                                <!-- 扫描动画效果 -->
+                                                <div class="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
+                                                    <div x-show="推广DropdownOpen"
+                                                         x-transition:enter="transition ease-out duration-2000"
+                                                         x-transition:enter-start="transform -translate-y-full"
+                                                         x-transition:enter-end="transform translate-y-full"
+                                                         class="h-full w-0.5 bg-gradient-to-b from-transparent via-sky-400 to-transparent shadow-lg shadow-sky-400/50">
+                                                    </div>
+                                                </div>
+
+                                                <!-- 角标装饰 -->
+                                                <div class="absolute -top-1 -left-1 w-6 h-6 border-t-2 border-l-2 border-sky-400 rounded-tl-lg"></div>
+                                                <div class="absolute -top-1 -right-1 w-6 h-6 border-t-2 border-r-2 border-sky-400 rounded-tr-lg"></div>
+                                                <div class="absolute -bottom-1 -left-1 w-6 h-6 border-b-2 border-l-2 border-sky-400 rounded-bl-lg"></div>
+                                                <div class="absolute -bottom-1 -right-1 w-6 h-6 border-b-2 border-r-2 border-sky-400 rounded-br-lg"></div>
+
+                                                <!-- 中心装饰圆点 -->
+                                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-sky-400 rounded-full qr-pulse"></div>
+                                            </div>
+
+                                            <!-- 联系信息 -->
+                                            <div class="text-center space-y-2">
+                                                <div class="flex items-center justify-center text-sm text-slate-300 hover:text-sky-400 transition-colors duration-300">
+                                                    <svg class="w-4 h-4 mr-2 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    <span>扫码立即开始推广</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -2326,7 +2401,7 @@
             <div class="flex-1 flex items-center justify-center overflow-hidden rounded-xl">
                 <div class="relative w-full h-full flex items-center justify-center">
                     <!-- 主图片 - 可点击任意图片路径 -->
-                    <img src="https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png"
+                    <img src="https://i.ibb.co/mFPd23jC/wu.png"
                          alt="联系我们"
                          class="max-w-full max-h-full object-contain cursor-pointer transition-transform duration-300 hover:scale-105"
 >
