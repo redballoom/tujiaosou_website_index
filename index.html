@@ -504,7 +504,7 @@
 
     </style>
 </head>
-<body class="antialiased" x-data="{ showAgentModal: false, showStrategyModal: false, showVideoModal: false, showQRCodeModal: false, showContactImageModal: false, showBackToTop: false }" x-init="window.addEventListener('scroll', () => { showBackToTop = window.pageYOffset > 300 })">
+<body class="antialiased" x-data="{ showAgentModal: false, showStrategyModal: false, showVideoModal: false, showQRCodeModal: false, showContactImageModal: false, showContactImage: false, showBackToTop: false }" x-init="window.addEventListener('scroll', () => { showBackToTop = window.pageYOffset > 300 })">
 
     <!-- Header -->
     <header class="sticky top-0 z-40 bg-slate-900/70 backdrop-blur-lg">
@@ -518,9 +518,34 @@
                 <a href="#pricing" class="hover:text-sky-400 transition">价格方案</a>
                 <a href="#faq" class="hover:text-sky-400 transition">常见问题</a>
             </div>
-            <button @click="showContactImageModal = true" class="cta-button text-white font-bold py-2 px-6 rounded-lg">立即咨询</button>
+            <button @click="showContactImage = !showContactImage" class="cta-button text-white font-bold py-2 px-6 rounded-lg">立即咨询</button>
         </nav>
     </header>
+
+    <!-- Contact Image Display -->
+    <div x-show="showContactImage"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 transform -translate-y-2"
+         x-transition:enter-end="opacity-100 transform translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 transform translate-y-0"
+         x-transition:leave-end="opacity-0 transform -translate-y-2"
+         class="fixed top-20 right-6 z-50 bg-slate-900/95 backdrop-blur-lg rounded-lg shadow-2xl border border-slate-700/50 p-4"
+         style="display: none;">
+        <div class="relative">
+            <!-- 关闭按钮 -->
+            <button @click="showContactImage = false"
+                    class="absolute -top-2 -right-2 w-6 h-6 bg-slate-800 hover:bg-slate-700 rounded-full flex items-center justify-center text-white hover:text-sky-400 transition-all duration-200 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <!-- 图片 -->
+            <img src="https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png"
+                 alt="联系我们"
+                 class="max-w-xs rounded-lg shadow-lg">
+        </div>
+    </div>
 
     <main>
         <!-- Hero Section -->
@@ -2196,8 +2221,7 @@
                     <img src="https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png"
                          alt="联系我们"
                          class="max-w-full max-h-full object-contain cursor-pointer transition-transform duration-300 hover:scale-105"
-                         @dblclick="showContactImageModal = false; window.open('https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png', '_blank')"
-                         onerror="this.src='https://via.placeholder.com/800x600/f0f0f0/666666?text=Contact+Image'">
+                         @dblclick="showContactImageModal = false; window.open('https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png', '_blank')">
                 </div>
             </div>
 
