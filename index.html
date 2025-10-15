@@ -291,6 +291,33 @@
                 min-width: 44px;
             }
 
+            /* 推广弹出框移动端优化 */
+            [x-show="推广DropdownOpen"] {
+                max-width: 85vw !important;
+                max-height: 80vh !important;
+                overflow-y: auto !important;
+            }
+
+            /* 确保弹出框在小屏幕上完整显示 */
+            .absolute.top-full.left-1\/2.transform.-translate-x-1\/2 {
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                margin-top: 0 !important;
+                margin-left: 0 !important;
+            }
+
+            /* 二维码容器移动端适配 */
+            .relative.mx-auto.w-48.h-48.mb-4.qr-float {
+                width: 36vw !important;
+                height: 36vw !important;
+                max-width: 160px !important;
+                max-height: 160px !important;
+            }
+
             /* 移动端字体优化 */
             h1 { font-size: 2rem; line-height: 1.2; }
             h2 { font-size: 1.5rem; line-height: 1.3; }
@@ -909,12 +936,194 @@
             -webkit-mask-image: -webkit-radial-gradient(white, black);
         }
 
+        /* 现代汉堡按钮样式 */
+        .modern-hamburger-btn {
+            cursor: pointer;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .modern-hamburger-btn:active {
+            transform: scale(0.95);
+        }
+
+        .modern-hamburger-btn:focus {
+            outline: none;
+        }
+
+        .modern-hamburger-btn:focus .hamburger-glow {
+            opacity: 0.3;
+        }
+
+        /* 汉堡线条样式 */
+        .hamburger-line {
+            transform-origin: center;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 波纹动画 */
+        .hamburger-ripple {
+            border-radius: 50%;
+        }
+
+        /* 移动端菜单调试样式 */
+        @media (max-width: 767px) {
+            .hamburger-menu {
+                display: flex !important;
+            }
+        }
+
+        /* 确保小屏幕显示汉堡菜单 */
+        @media screen and (max-width: 768px) {
+            .mobile-hamburger {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+        }
+
+        /* 移动端汉堡菜单增强样式 */
+        @media (max-width: 768px) {
+            .modern-hamburger-btn {
+                min-width: 48px;
+                min-height: 48px;
+            }
+        }
+
+        /* 移动端菜单增强样式 */
+        .mobile-menu-enhanced {
+            max-height: 80vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #475569 #1e293b;
+        }
+
+        .mobile-menu-enhanced::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .mobile-menu-enhanced::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        .mobile-menu-enhanced::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+
+        .mobile-menu-enhanced::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* 菜单项动画 */
+        .mobile-menu-item {
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        .mobile-menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.1), transparent);
+            transition: left 0.5s ease-out;
+        }
+
+        .mobile-menu-item:hover::before {
+            left: 100%;
+        }
+
+        /* 菜单图标容器动画 */
+        .menu-icon-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-icon-container::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease-out, height 0.3s ease-out;
+        }
+
+        .mobile-menu-item:hover .menu-icon-container::after {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 现代CTA按钮样式 */
+        .modern-cta-button {
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .modern-cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease-out;
+        }
+
+        .modern-cta-button:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* 菜单项进入动画 */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .mobile-menu-item {
+            animation: slideInLeft 0.4s ease-out forwards;
+            opacity: 0;
+        }
+
+        .mobile-menu-item:nth-child(1) { animation-delay: 0.1s; }
+        .mobile-menu-item:nth-child(2) { animation-delay: 0.15s; }
+        .mobile-menu-item:nth-child(3) { animation-delay: 0.2s; }
+        .mobile-menu-item:nth-child(4) { animation-delay: 0.25s; }
+        .mobile-menu-item:nth-child(5) { animation-delay: 0.3s; }
+        .mobile-menu-item:nth-child(6) { animation-delay: 0.35s; }
+
+        /* 汉堡按钮发光动画 */
+        @keyframes hamburgerGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(56, 189, 248, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.6), 0 0 30px rgba(56, 189, 248, 0.4); }
+        }
+
+        .modern-hamburger-btn:hover .hamburger-glow {
+            animation: hamburgerGlow 1.5s ease-in-out infinite;
+        }
+
     </style>
 </head>
-<body class="antialiased" x-data="{ showAgentModal: false, showStrategyModal: false, showVideoModal: false, showQRCodeModal: false, showContactImageModal: false, showBackToTop: false }" x-init="window.addEventListener('scroll', () => { showBackToTop = window.pageYOffset > 300 }); window.addEventListener('keydown', (e) => { if (e.key === 'Escape') { showContactImageModal = false; showVideoModal = false; showAgentModal = false; showStrategyModal = false; showQRCodeModal = false; } })">
+<body class="antialiased" x-data="{ showAgentModal: false, showStrategyModal: false, showVideoModal: false, showQRCodeModal: false, showContactImageModal: false, show推广Modal: false, showBackToTop: false, mobileMenuOpen: false }" x-init="window.addEventListener('scroll', () => { showBackToTop = window.pageYOffset > 300 }); window.addEventListener('keydown', (e) => { if (e.key === 'Escape') { showContactImageModal = false; showVideoModal = false; showAgentModal = false; showStrategyModal = false; showQRCodeModal = false; show推广Modal = false; mobileMenuOpen = false; } })">
 
     <!-- Header -->
-    <header class="sticky top-0 z-40 bg-slate-900/70 backdrop-blur-lg" x-data="{ mobileMenuOpen: false }">
+    <header class="sticky top-0 z-40 bg-slate-900/70 backdrop-blur-lg">
         <nav class="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center" role="navigation" aria-label="主导航">
             <a href="/" aria-label="图灵兽首页" class="focus:outline-none focus:ring-2 focus:ring-sky-400 rounded"><div class="text-xl sm:text-2xl font-black gradient-text">图灵兽</div></a>
 
@@ -929,12 +1138,33 @@
             </div>
 
             <!-- 移动端菜单按钮 -->
-            <div class="md:hidden">
+            <div class="md:hidden flex mobile-hamburger hamburger-menu">
                 <button @click="mobileMenuOpen = !mobileMenuOpen"
-                        class="text-white hover:text-sky-400 focus:outline-none focus:text-sky-400 p-2">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                        :class="{ 'text-sky-400': mobileMenuOpen }"
+                        class="modern-hamburger-btn relative group w-12 h-12 flex items-center justify-center focus:outline-none transition-all duration-300"
+                        aria-label="Toggle mobile menu">
+
+                    <!-- 背景效果 -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-sky-500/20 to-blue-600/20 rounded-xl backdrop-blur-sm border border-white/10 group-hover:border-sky-400/30 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-sky-400/20"></div>
+
+                    <!-- 汉堡图标容器 -->
+                    <div class="relative w-6 h-5 flex flex-col justify-center items-center">
+                        <!-- 三条线 -->
+                        <span class="hamburger-line absolute w-6 h-0.5 bg-current transform transition-all duration-300 ease-in-out"
+                              :class="mobileMenuOpen ? 'top-2.5 rotate-45' : 'top-0'"></span>
+                        <span class="hamburger-line absolute w-6 h-0.5 bg-current top-2.5 transform transition-all duration-300 ease-in-out"
+                              :class="mobileMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'"></span>
+                        <span class="hamburger-line absolute w-6 h-0.5 bg-current transform transition-all duration-300 ease-in-out"
+                              :class="mobileMenuOpen ? 'top-2.5 -rotate-45' : 'top-5'"></span>
+                    </div>
+
+                    <!-- 波纹效果 -->
+                    <div class="absolute inset-0 rounded-xl overflow-hidden">
+                        <div class="hamburger-ripple absolute inset-0 bg-gradient-to-r from-sky-400/30 to-blue-500/30 transform scale-0 group-hover:scale-100 transition-transform duration-500 ease-out"></div>
+                    </div>
+
+                    <!-- 发光效果 -->
+                    <div class="hamburger-glow absolute -inset-1 bg-gradient-to-r from-sky-400 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300"></div>
                 </button>
             </div>
             <div class="relative" x-data="{ qrDropdownOpen: false }">
@@ -1035,42 +1265,159 @@
         <!-- 移动端菜单 -->
         <div id="mobile-menu"
              x-show="mobileMenuOpen"
-             x-transition:enter="transition ease-out duration-200"
-             x-transition:enter-start="opacity-0 -translate-y-2"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 -translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0"
-             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave="transition ease-in duration-250"
              x-transition:leave-start="opacity-100 translate-y-0"
-             x-transition:leave-end="opacity-0 -translate-y-2"
+             x-transition:leave-end="opacity-0 -translate-y-4"
              @click.outside="mobileMenuOpen = false"
              @keydown.escape.window="mobileMenuOpen = false"
-             class="hidden md:hidden bg-slate-900/95 backdrop-blur-lg border-t border-slate-700/50"
-            <div class="container mx-auto px-4 py-4 space-y-3" @click.stop>
-                <a href="#comparison"
-                   @click="mobileMenuOpen = false"
-                   class="block text-white hover:text-sky-400 transition-colors py-2 text-base font-medium focus:outline-none focus:text-sky-400">优势对比</a>
-                <a href="#services"
-                   @click="mobileMenuOpen = false"
-                   class="block text-white hover:text-sky-400 transition-colors py-2 text-base font-medium focus:outline-none focus:text-sky-400">服务内容</a>
-                <a href="#portfolio"
-                   @click="mobileMenuOpen = false"
-                   class="block text-white hover:text-sky-400 transition-colors py-2 text-base font-medium focus:outline-none focus:text-sky-400">成功案例</a>
-                <a href="#distribution-plan"
-                   @click="mobileMenuOpen = false"
-                   class="block text-white hover:text-sky-400 transition-colors py-2 text-base font-medium focus:outline-none focus:text-sky-400">分销计划</a>
-                <a href="#pricing"
-                   @click="mobileMenuOpen = false"
-                   class="block text-white hover:text-sky-400 transition-colors py-2 text-base font-medium focus:outline-none focus:text-sky-400">价格方案</a>
-                <a href="#faq"
-                   @click="mobileMenuOpen = false"
-                   class="block text-white hover:text-sky-400 transition-colors py-2 text-base font-medium focus:outline-none focus:text-sky-400">常见问题</a>
+             class="md:hidden mobile-menu-enhanced bg-gradient-to-br from-slate-900/98 via-slate-800/96 to-slate-900/98 backdrop-blur-xl border-t border-slate-700/30 shadow-2xl">
+
+            <!-- 顶部装饰线 -->
+            <div class="h-1 bg-gradient-to-r from-sky-400 via-blue-500 to-purple-600"></div>
+
+            <div class="container mx-auto px-4 py-6" @click.stop>
+                <!-- 菜单头部信息 -->
+                <div class="mb-6 text-center">
+                    <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-sky-400 to-blue-500 rounded-full mb-3 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-1">图灵兽</h3>
+                    <p class="text-sm text-slate-400">专业的AI视觉解决方案</p>
+                </div>
+
+                <!-- 主导航菜单 -->
+                <div class="space-y-2 mb-6">
+                    <a href="#comparison"
+                       @click="mobileMenuOpen = false"
+                       class="mobile-menu-item group flex items-center p-4 rounded-xl bg-slate-800/30 border border-slate-700/20 hover:bg-slate-700/40 hover:border-sky-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-sky-400/10">
+                        <div class="menu-icon-container mr-4 w-10 h-10 bg-gradient-to-br from-sky-400/20 to-blue-500/20 rounded-lg flex items-center justify-center group-hover:from-sky-400/30 group-hover:to-blue-500/30 transition-all duration-300">
+                            <svg class="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-white font-medium group-hover:text-sky-400 transition-colors duration-300">优势对比</span>
+                            <span class="block text-xs text-slate-400 group-hover:text-slate-300 transition-colors duration-300">了解我们的核心优势</span>
+                        </div>
+                        <svg class="w-4 h-4 text-slate-400 group-hover:text-sky-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#services"
+                       @click="mobileMenuOpen = false"
+                       class="mobile-menu-item group flex items-center p-4 rounded-xl bg-slate-800/30 border border-slate-700/20 hover:bg-slate-700/40 hover:border-sky-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-sky-400/10">
+                        <div class="menu-icon-container mr-4 w-10 h-10 bg-gradient-to-br from-purple-400/20 to-pink-500/20 rounded-lg flex items-center justify-center group-hover:from-purple-400/30 group-hover:to-pink-500/30 transition-all duration-300">
+                            <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-white font-medium group-hover:text-purple-400 transition-colors duration-300">服务内容</span>
+                            <span class="block text-xs text-slate-400 group-hover:text-slate-300 transition-colors duration-300">专业的视觉服务</span>
+                        </div>
+                        <svg class="w-4 h-4 text-slate-400 group-hover:text-purple-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#portfolio"
+                       @click="mobileMenuOpen = false"
+                       class="mobile-menu-item group flex items-center p-4 rounded-xl bg-slate-800/30 border border-slate-700/20 hover:bg-slate-700/40 hover:border-sky-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-sky-400/10">
+                        <div class="menu-icon-container mr-4 w-10 h-10 bg-gradient-to-br from-emerald-400/20 to-green-500/20 rounded-lg flex items-center justify-center group-hover:from-emerald-400/30 group-hover:to-green-500/30 transition-all duration-300">
+                            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-white font-medium group-hover:text-emerald-400 transition-colors duration-300">成功案例</span>
+                            <span class="block text-xs text-slate-400 group-hover:text-slate-300 transition-colors duration-300">查看客户成功案例</span>
+                        </div>
+                        <svg class="w-4 h-4 text-slate-400 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#distribution-plan"
+                       @click="mobileMenuOpen = false"
+                       class="mobile-menu-item group flex items-center p-4 rounded-xl bg-slate-800/30 border border-slate-700/20 hover:bg-slate-700/40 hover:border-sky-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-sky-400/10">
+                        <div class="menu-icon-container mr-4 w-10 h-10 bg-gradient-to-br from-amber-400/20 to-orange-500/20 rounded-lg flex items-center justify-center group-hover:from-amber-400/30 group-hover:to-orange-500/30 transition-all duration-300">
+                            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-white font-medium group-hover:text-amber-400 transition-colors duration-300">分销计划</span>
+                            <span class="block text-xs text-slate-400 group-hover:text-slate-300 transition-colors duration-300">加入我们的分销网络</span>
+                        </div>
+                        <svg class="w-4 h-4 text-slate-400 group-hover:text-amber-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#pricing"
+                       @click="mobileMenuOpen = false"
+                       class="mobile-menu-item group flex items-center p-4 rounded-xl bg-slate-800/30 border border-slate-700/20 hover:bg-slate-700/40 hover:border-sky-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-sky-400/10">
+                        <div class="menu-icon-container mr-4 w-10 h-10 bg-gradient-to-br from-rose-400/20 to-pink-500/20 rounded-lg flex items-center justify-center group-hover:from-rose-400/30 group-hover:to-pink-500/30 transition-all duration-300">
+                            <svg class="w-5 h-5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-white font-medium group-hover:text-rose-400 transition-colors duration-300">价格方案</span>
+                            <span class="block text-xs text-slate-400 group-hover:text-slate-300 transition-colors duration-300">透明的价格体系</span>
+                        </div>
+                        <svg class="w-4 h-4 text-slate-400 group-hover:text-rose-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#faq"
+                       @click="mobileMenuOpen = false"
+                       class="mobile-menu-item group flex items-center p-4 rounded-xl bg-slate-800/30 border border-slate-700/20 hover:bg-slate-700/40 hover:border-sky-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-sky-400/10">
+                        <div class="menu-icon-container mr-4 w-10 h-10 bg-gradient-to-br from-indigo-400/20 to-blue-500/20 rounded-lg flex items-center justify-center group-hover:from-indigo-400/30 group-hover:to-blue-500/30 transition-all duration-300">
+                            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <span class="block text-white font-medium group-hover:text-indigo-400 transition-colors duration-300">常见问题</span>
+                            <span class="block text-xs text-slate-400 group-hover:text-slate-300 transition-colors duration-300">解答您的疑问</span>
+                        </div>
+                        <svg class="w-4 h-4 text-slate-400 group-hover:text-indigo-400 group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
 
                 <!-- 移动端CTA按钮 -->
-                <div class="pt-4 border-t border-slate-700/50">
+                <!-- <div class="pt-6 border-t border-slate-700/30">
                     <button @click="mobileMenuOpen = false; qrDropdownOpen = !qrDropdownOpen"
-                            class="w-full cta-button text-white font-bold py-3 px-6 rounded-lg text-base">
-                        立即咨询
+                            class="w-full modern-cta-button bg-gradient-to-r from-sky-500 via-blue-500 to-purple-600 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl hover:shadow-sky-400/25 transform transition-all duration-300 hover:scale-105 active:scale-95 border border-white/10 backdrop-blur-sm relative overflow-hidden group">
+
+                        <!-- 背景动画 -->
+                        <!-- <div class="absolute inset-0 bg-gradient-to-r from-sky-400 via-blue-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div> -->
+
+                        <!-- 内容 -->
+                        <!-- <span class="relative flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            立即咨询
+                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </span> -->
+
+                        <!-- 边框发光效果 -->
+                        <!-- <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-sky-400 to-blue-500 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300"></div>
                     </button>
-                </div>
+                </div> -->
             </div>
         </div>
     </header>
@@ -2031,91 +2378,10 @@
                         <div class="bg-gradient-to-br from-sky-600/30 to-purple-600/30 border border-sky-700/50 rounded-2xl p-6 shadow-xl">
                             <h3 class="text-xl font-bold text-white mb-3">立即加入分销计划</h3>
                             <p class="text-slate-300 text-sm mb-4">邀请20位有效用户，自动升级为团长，享受高达45%的现金返佣！</p>
-                            <div class="relative" x-data="{推广DropdownOpen: false }">
-                                <button @click="推广DropdownOpen = !推广DropdownOpen"
-                                        :class="{ 'ring-2 ring-sky-400 ring-opacity-50': 推广DropdownOpen }"
+                            <button @click="show推广Modal = true"
                                         class="w-full py-3 bg-gradient-to-r from-sky-600 to-purple-600 hover:from-sky-700 hover:to-purple-700 rounded-lg text-white font-medium transition-colors flex items-center justify-center gap-2 transform transition-all duration-300 hover:scale-105 active:scale-95">
                                     <span>开始推广</span>
-                                    <svg class="w-4 h-4 transform transition-transform duration-300"
-                                         :class="{ 'rotate-180': 推广DropdownOpen }"
-                                         fill="none"
-                                         stroke="currentColor"
-                                         viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                    </svg>
                                 </button>
-
-                                <!-- 下拉二维码展示区域 -->
-                                <div x-show="推广DropdownOpen"
-                                     x-transition:enter="transition ease-out duration-500"
-                                     x-transition:enter-start="opacity-0 transform -translate-y-4 scale-95"
-                                     x-transition:enter-end="opacity-100 transform translate-y-0 scale-100"
-                                     x-transition:leave="transition ease-in duration-400"
-                                     x-transition:leave-start="opacity-100 transform translate-y-0 scale-100"
-                                     x-transition:leave-end="opacity-0 transform -translate-y-4 scale-95"
-                                     @click.away="推广DropdownOpen = false"
-                                     class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-80 z-20"
-                                     style="display: none;">
-
-                                    <!-- 箭头指示器 -->
-                                    <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-slate-900/95 backdrop-blur-lg transform rotate-45 border-t border-l border-slate-700/50"></div>
-
-                                    <!-- 主容器 -->
-                                    <div class="bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden qr-glow qr-shimmer">
-                                        <!-- 头部装饰 -->
-                                        <div class="h-1 bg-gradient-to-r from-sky-400 via-blue-500 to-purple-600 qr-pulse"></div>
-
-                                        <!-- 内容区域 -->
-                                        <div class="p-6">
-                                            <!-- 标题 -->
-                                            <div class="text-center mb-4">
-                                                <h3 class="text-lg font-bold text-white mb-1">扫码加入分销计划</h3>
-                                                <p class="text-sm text-slate-400">邀请20位有效用户，升级团长享受45%返佣</p>
-                                            </div>
-
-                                            <!-- 二维码容器 -->
-                                            <div class="relative mx-auto w-48 h-48 mb-4 qr-float">
-                                                <!-- 二维码图片 -->
-                                                <img src="https://i.ibb.co/R11bfGS/li.png"
-                                                     alt="推广二维码"
-                                                     class="w-full h-full object-cover rounded-xl shadow-lg border-2 border-sky-400/30">
-
-                                                <!-- 扫描动画效果 -->
-                                                <div class="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
-                                                    <div x-show="推广DropdownOpen"
-                                                         x-transition:enter="transition ease-out duration-2000"
-                                                         x-transition:enter-start="transform -translate-y-full"
-                                                         x-transition:enter-end="transform translate-y-full"
-                                                         class="h-full w-0.5 bg-gradient-to-b from-transparent via-sky-400 to-transparent shadow-lg shadow-sky-400/50">
-                                                    </div>
-                                                </div>
-
-                                                <!-- 角标装饰 -->
-                                                <div class="absolute -top-1 -left-1 w-6 h-6 border-t-2 border-l-2 border-sky-400 rounded-tl-lg"></div>
-                                                <div class="absolute -top-1 -right-1 w-6 h-6 border-t-2 border-r-2 border-sky-400 rounded-tr-lg"></div>
-                                                <div class="absolute -bottom-1 -left-1 w-6 h-6 border-b-2 border-l-2 border-sky-400 rounded-bl-lg"></div>
-                                                <div class="absolute -bottom-1 -right-1 w-6 h-6 border-b-2 border-r-2 border-sky-400 rounded-br-lg"></div>
-
-                                                <!-- 中心装饰圆点 -->
-                                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-sky-400 rounded-full qr-pulse"></div>
-                                            </div>
-
-                                            <!-- 联系信息 -->
-                                            <div class="text-center space-y-2">
-                                                <div class="flex items-center justify-center text-sm text-slate-300 hover:text-sky-400 transition-colors duration-300">
-                                                    <svg class="w-4 h-4 mr-2 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                    <span>扫码立即开始推广</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -2853,6 +3119,47 @@
         </div>
     </div>
 
+    <!-- 推广 Image Modal -->
+    <div x-show="show推广Modal"
+         x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+         x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 backdrop-blur-sm p-4" style="display: none;">
+        <div @click.away="show推广Modal = false"
+             x-show="show推广Modal"
+             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+             class="relative w-auto h-auto max-w-lg max-h-[80vh] sm:max-w-xl sm:max-h-[85vh] flex flex-col mx-2 sm:mx-4">
+
+            <!-- 图片容器 -->
+            <div class="flex-1 flex items-center justify-center overflow-hidden rounded-xl">
+                <div class="relative w-full h-full flex items-center justify-center">
+                    <!-- 主图片 - 保持原有的推广图片 -->
+                    <img src="https://i.ibb.co/R11bfGS/li.png"
+                         alt="推广二维码"
+                         class="max-w-full max-h-full object-contain cursor-pointer transition-transform duration-300 hover:scale-105"
+>
+                </div>
+            </div>
+
+            <!-- 底部操作提示 -->
+            <div class="bg-slate-800/90 backdrop-blur-sm p-4 border-t border-slate-700/50 rounded-b-xl">
+                <div class="flex items-center justify-between text-sm text-slate-300">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-2 text-sky-400" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
+                            </svg>
+                            <span>扫码加入分销计划</span>
+                        </div>
+                    </div>
+                    <div class="text-xs text-slate-400">
+                        邀请20位有效用户，升级团长享受45%返佣
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <!-- Back to Top Button -->
     <button x-show="showBackToTop"
             x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
@@ -2993,6 +3300,52 @@
                 }
             }, 100);
         }
+
+        // 移动端汉堡菜单调试
+        console.log('Mobile hamburger menu debugging:');
+        console.log('Window width:', window.innerWidth);
+        console.log('Is mobile:', window.innerWidth < 768);
+
+        // 等待Alpine.js加载完成
+        setTimeout(() => {
+            console.log('Alpine.js loaded, checking components...');
+
+            // 检查汉堡菜单元素是否存在
+            const hamburgerMenu = document.querySelector('.mobile-hamburger');
+            const hamburgerButton = document.querySelector('.mobile-hamburger button');
+            const mobileMenuElement = document.getElementById('mobile-menu');
+            const headerElement = document.querySelector('header[x-data]');
+
+            console.log('Hamburger menu element:', hamburgerMenu);
+            console.log('Hamburger button element:', hamburgerButton);
+            console.log('Mobile menu element:', mobileMenuElement);
+            console.log('Header element found:', !!headerElement);
+            console.log('Header x-data:', headerElement ? headerElement.__x : 'Not found');
+
+            if (hamburgerMenu) {
+                console.log('Hamburger menu styles:', window.getComputedStyle(hamburgerMenu));
+                console.log('Hamburger menu display:', window.getComputedStyle(hamburgerMenu).display);
+                console.log('Hamburger menu visibility:', window.getComputedStyle(hamburgerMenu).visibility);
+            }
+
+            // 检查Alpine.js状态
+            if (window.Alpine && headerElement) {
+                console.log('Alpine.js state:', headerElement.__x.$data);
+                console.log('Mobile menu state available:', 'mobileMenuOpen' in headerElement.__x.$data);
+            }
+
+            if (window.innerWidth < 768 && !hamburgerMenu) {
+                console.warn('Hamburger menu not found on mobile screen!');
+            }
+
+            // 测试点击功能
+            if (hamburgerButton) {
+                console.log('Adding test click listener...');
+                hamburgerButton.addEventListener('click', () => {
+                    console.log('Hamburger button clicked!');
+                });
+            }
+        }, 1500);
     </script>
 
 </body>
