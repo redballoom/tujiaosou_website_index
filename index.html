@@ -518,7 +518,7 @@
                 <a href="#pricing" class="hover:text-sky-400 transition">价格方案</a>
                 <a href="#faq" class="hover:text-sky-400 transition">常见问题</a>
             </div>
-            <a href="#faq-contact-text" class="cta-button text-white font-bold py-2 px-6 rounded-lg">立即咨询</a>
+            <button @click="showContactImageModal = true" class="cta-button text-white font-bold py-2 px-6 rounded-lg">立即咨询</button>
         </nav>
     </header>
 
@@ -2179,7 +2179,7 @@
              x-show="showContactImageModal"
              x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
              x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-             class="relative w-full h-full max-w-5xl max-h-[90vh] flex flex-col">
+             class="relative w-auto h-auto max-w-lg max-h-[80vh] flex flex-col">
 
             <!-- 关闭按钮 -->
             <button @click="showContactImageModal = false"
@@ -2193,10 +2193,10 @@
             <div class="flex-1 flex items-center justify-center overflow-hidden rounded-xl">
                 <div class="relative w-full h-full flex items-center justify-center">
                     <!-- 主图片 - 可点击任意图片路径 -->
-                    <img src="https://i.ibb.co/S43B75JM/qiye-wexin.jpg"
+                    <img src="https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png"
                          alt="联系我们"
                          class="max-w-full max-h-full object-contain cursor-pointer transition-transform duration-300 hover:scale-105"
-                         @dblclick="showContactImageModal = false; window.open('https://i.ibb.co/S43B75JM/qiye-wexin.jpg', '_blank')"
+                         @dblclick="showContactImageModal = false; window.open('https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png', '_blank')"
                          onerror="this.src='https://via.placeholder.com/800x600/f0f0f0/666666?text=Contact+Image'">
                 </div>
             </div>
