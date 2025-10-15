@@ -502,9 +502,50 @@
             }
         }
 
+        /* 高级二维码下拉样式 */
+        .qr-glow {
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.3),
+                        0 0 80px rgba(56, 189, 248, 0.1),
+                        0 0 120px rgba(56, 189, 248, 0.05);
+        }
+
+        .qr-shimmer {
+            background: linear-gradient(
+                105deg,
+                transparent 40%,
+                rgba(56, 189, 248, 0.1) 50%,
+                transparent 60%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -100% 0; }
+            100% { background-position: 100% 0; }
+        }
+
+        .qr-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .qr-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
     </style>
 </head>
-<body class="antialiased" x-data="{ showAgentModal: false, showStrategyModal: false, showVideoModal: false, showQRCodeModal: false, showContactImageModal: false, showContactImage: false, showBackToTop: false }" x-init="window.addEventListener('scroll', () => { showBackToTop = window.pageYOffset > 300 })">
+<body class="antialiased" x-data="{ showAgentModal: false, showStrategyModal: false, showVideoModal: false, showQRCodeModal: false, showContactImageModal: false, showBackToTop: false }" x-init="window.addEventListener('scroll', () => { showBackToTop = window.pageYOffset > 300 })">
 
     <!-- Header -->
     <header class="sticky top-0 z-40 bg-slate-900/70 backdrop-blur-lg">
@@ -518,34 +559,101 @@
                 <a href="#pricing" class="hover:text-sky-400 transition">价格方案</a>
                 <a href="#faq" class="hover:text-sky-400 transition">常见问题</a>
             </div>
-            <button @click="showContactImage = !showContactImage" class="cta-button text-white font-bold py-2 px-6 rounded-lg">立即咨询</button>
+            <div class="relative" x-data="{ qrDropdownOpen: false }">
+            <button @click="qrDropdownOpen = !qrDropdownOpen"
+                    :class="{ 'ring-2 ring-sky-400 ring-opacity-50': qrDropdownOpen }"
+                    class="cta-button text-white font-bold py-2 px-6 rounded-lg relative z-10 transform transition-all duration-300 hover:scale-105 active:scale-95">
+                <span class="flex items-center">
+                    立即咨询
+                    <svg class="w-4 h-4 ml-2 transform transition-transform duration-300"
+                         :class="{ 'rotate-180': qrDropdownOpen }"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </span>
+            </button>
+
+            <!-- 下拉二维码展示区域 -->
+            <div x-show="qrDropdownOpen"
+                 x-transition:enter="transition ease-out duration-500"
+                 x-transition:enter-start="opacity-0 transform -translate-y-4 scale-95"
+                 x-transition:enter-end="opacity-100 transform translate-y-0 scale-100"
+                 x-transition:leave="transition ease-in duration-400"
+                 x-transition:leave-start="opacity-100 transform translate-y-0 scale-100"
+                 x-transition:leave-end="opacity-0 transform -translate-y-4 scale-95"
+                 @click.away="qrDropdownOpen = false"
+                 class="absolute top-full right-0 mt-2 w-80 z-20"
+                 style="display: none;">
+
+                <!-- 箭头指示器 -->
+                <div class="absolute -top-2 right-6 w-4 h-4 bg-slate-900/95 backdrop-blur-lg transform rotate-45 border-t border-l border-slate-700/50"></div>
+
+                <!-- 主容器 -->
+                <div class="bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden qr-glow qr-shimmer">
+                    <!-- 头部装饰 -->
+                    <div class="h-1 bg-gradient-to-r from-sky-400 via-blue-500 to-purple-600 qr-pulse"></div>
+
+                    <!-- 内容区域 -->
+                    <div class="p-6">
+                        <!-- 标题 -->
+                        <div class="text-center mb-4">
+                            <h3 class="text-lg font-bold text-white mb-1">扫码联系我们</h3>
+                            <p class="text-sm text-slate-400">专业团队为您提供1对1服务</p>
+                        </div>
+
+                        <!-- 二维码容器 -->
+                        <div class="relative mx-auto w-48 h-48 mb-4 qr-float">
+                            <!-- 二维码图片 -->
+                            <img src="https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png"
+                                 alt="联系二维码"
+                                 class="w-full h-full object-cover rounded-xl shadow-lg border-2 border-sky-400/30">
+
+                            <!-- 扫描动画效果 -->
+                            <div class="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
+                                <div x-show="qrDropdownOpen"
+                                     x-transition:enter="transition ease-out duration-2000"
+                                     x-transition:enter-start="transform -translate-y-full"
+                                     x-transition:enter-end="transform translate-y-full"
+                                     class="h-full w-0.5 bg-gradient-to-b from-transparent via-sky-400 to-transparent shadow-lg shadow-sky-400/50">
+                                </div>
+                            </div>
+
+                            <!-- 角标装饰 -->
+                            <div class="absolute -top-1 -left-1 w-6 h-6 border-t-2 border-l-2 border-sky-400 rounded-tl-lg"></div>
+                            <div class="absolute -top-1 -right-1 w-6 h-6 border-t-2 border-r-2 border-sky-400 rounded-tr-lg"></div>
+                            <div class="absolute -bottom-1 -left-1 w-6 h-6 border-b-2 border-l-2 border-sky-400 rounded-bl-lg"></div>
+                            <div class="absolute -bottom-1 -right-1 w-6 h-6 border-b-2 border-r-2 border-sky-400 rounded-br-lg"></div>
+
+                            <!-- 中心装饰圆点 -->
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-sky-400 rounded-full qr-pulse"></div>
+                        </div>
+
+                        <!-- 联系信息 -->
+                        <div class="text-center space-y-2">
+                            <div class="flex items-center justify-center text-sm text-slate-300 hover:text-sky-400 transition-colors duration-300">
+                                <svg class="w-4 h-4 mr-2 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                工作时间：9:00-21:00
+                            </div>
+                            <div class="flex items-center justify-center text-sm text-slate-300 hover:text-sky-400 transition-colors duration-300">
+                                <svg class="w-4 h-4 mr-2 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                24小时内响应
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 底部装饰 -->
+                    <div class="h-1 bg-gradient-to-r from-purple-600 via-pink-500 to-sky-400 qr-pulse"></div>
+                </div>
+            </div>
+        </div>
         </nav>
     </header>
-
-    <!-- Contact Image Display -->
-    <div x-show="showContactImage"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 transform -translate-y-2"
-         x-transition:enter-end="opacity-100 transform translate-y-0"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 transform translate-y-0"
-         x-transition:leave-end="opacity-0 transform -translate-y-2"
-         class="fixed top-20 right-6 z-50 bg-slate-900/95 backdrop-blur-lg rounded-lg shadow-2xl border border-slate-700/50 p-4"
-         style="display: none;">
-        <div class="relative">
-            <!-- 关闭按钮 -->
-            <button @click="showContactImage = false"
-                    class="absolute -top-2 -right-2 w-6 h-6 bg-slate-800 hover:bg-slate-700 rounded-full flex items-center justify-center text-white hover:text-sky-400 transition-all duration-200 text-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            <!-- 图片 -->
-            <img src="https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png"
-                 alt="联系我们"
-                 class="max-w-xs rounded-lg shadow-lg">
-        </div>
-    </div>
 
     <main>
         <!-- Hero Section -->
@@ -2221,7 +2329,7 @@
                     <img src="https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png"
                          alt="联系我们"
                          class="max-w-full max-h-full object-contain cursor-pointer transition-transform duration-300 hover:scale-105"
-                         @dblclick="showContactImageModal = false; window.open('https://gitee.com/redballoon/picgo-typora/raw/master/imgs/Snipaste_2025-10-15_13-42-02.png', '_blank')">
+>
                 </div>
             </div>
 
